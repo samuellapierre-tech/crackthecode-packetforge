@@ -1,686 +1,1037 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Packet Forge — CrackTheCode (Simulateur pédagogique)</title>
-<style>
-:root{
-  --bg:#050608; --panel:#071018; --glass:rgba(255,255,255,0.02);
-  --accent:#8cffb8; --accent2:#39d6ff; --muted:#90a3a2; --danger:#ff6b8a;
-  --card:#08121a; --shadow:rgba(0,0,0,0.7);
-  --mono: "Fira Code", "JetBrains Mono", ui-monospace, Menlo, monospace;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:radial-gradient(circle at top left,#051018 0,#000 60%);color:var(--accent);font-family:var(--mono);-webkit-font-smoothing:antialiased}
-.container{max-width:1400px;margin:18px auto;padding:12px;display:grid;grid-template-columns:1fr 420px;gap:12px;}
-.header{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.h-left{display:flex;flex-direction:column}
-.title{font-size:20px;color:var(--accent2);letter-spacing:0.06em}
-.subtitle{font-size:12px;color:var(--muted);margin-top:4px}
-.controls{display:flex;gap:8px;align-items:center}
-.btn{background:transparent;border:1px solid rgba(140,255,184,0.08);padding:8px 10px;border-radius:8px;color:var(--accent);cursor:pointer;font-size:13px}
-.btn:hover{border-color:rgba(140,255,184,0.18);box-shadow:0 6px 30px var(--shadow) inset}
-.btn-primary{background:linear-gradient(90deg,var(--accent)10%,var(--accent2)80%);color:#042426;border:none}
-.board{background:linear-gradient(180deg,var(--panel),#02060a);border-radius:12px;padding:12px;border:1px solid rgba(140,255,184,0.06);box-shadow:0 20px 60px rgba(0,0,0,0.8)}
-.left{display:flex;flex-direction:column;gap:12px}
-.terminal{height:320px;overflow:auto;padding:12px;border-radius:8px;background:linear-gradient(180deg,#020606,#041018);border:1px solid rgba(57,214,255,0.05)}
-.terminal .line{font-size:12px;color:var(--muted);line-height:1.5}
-.terminal .sys{color:var(--accent2)}
-.terminal .lyra{color:var(--accent)}
-.controls-row{display:flex;gap:8px;align-items:center}
-.toolbar{display:flex;gap:8px;align-items:center}
-.tools{display:flex;gap:6px}
-.panel{padding:10px;border-radius:8px;background:linear-gradient(180deg,#021018,#001015);border:1px solid rgba(0,0,0,0.3);min-height:120px}
-.map{height:300px;border-radius:8px;background:linear-gradient(180deg,#051018,#001010);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.map svg{width:100%;height:100%}
-.side{display:flex;flex-direction:column;gap:12px}
-.info{font-size:13px;color:var(--muted)}
-.mission-title{font-size:13px;color:var(--accent);margin-bottom:6px}
-.obj{display:flex;gap:8px;align-items:flex-start}
-.bullet{width:10px;height:10px;border-radius:50%;border:1px solid rgba(140,255,184,0.12)}
-.bullet.done{background:var(--accent)}
-.small{font-size:12px;color:var(--muted)}
-.levelbar{height:10px;background:linear-gradient(90deg,#011 0,#042 100%);border-radius:99px;overflow:hidden;border:1px solid rgba(0,0,0,0.5)}
-.progress{height:100%;background:linear-gradient(90deg,var(--accent)0,var(--accent2)100%);width:0%}
-.debug{font-size:11px;color:var(--muted);background:rgba(255,255,255,0.01);padding:8px;border-radius:8px;max-height:160px;overflow:auto}
-.row{display:flex;gap:8px;align-items:center}
-.legend{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:12px}
-.legend .box{width:10px;height:10px;border-radius:2px}
-.footer{grid-column:1/-1;margin-top:8px;color:var(--muted);font-size:12px}
-.savebox{display:flex;gap:6px;align-items:center}
-.switch{display:inline-flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px;border:1px solid rgba(140,255,184,0.06)}
-kbd{background:#011214;border-radius:4px;padding:3px 5px;color:var(--accent2);font-weight:600;font-size:12px}
-.note{font-size:12px;color:var(--muted);line-height:1.4}
-@media(max-width:1100px){.container{grid-template-columns:1fr;}}
-/* small helper */
-.hint{color:var(--accent2);font-weight:600}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Packet Forge — Neon Cyber Ops · CrackTheCode</title>
+  <style>
+    :root{
+      --bg:#020008;
+      --bg-panel:rgba(3,0,14,0.96);
+      --accent:#5bffbf;
+      --accent-soft:#2de4ff;
+      --accent-alt:#ff5af2;
+      --danger:#ff3366;
+      --muted:#8f9bb3;
+      --border-soft:rgba(91,255,191,0.22);
+      --font-mono:"Fira Code","JetBrains Mono",ui-monospace,Menlo,monospace;
+      --font-ui:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",system-ui,sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;}
+    body{
+      background:
+        radial-gradient(circle at top left,rgba(255,90,242,0.12),transparent 55%),
+        radial-gradient(circle at top right,rgba(45,228,255,0.14),transparent 60%),
+        #020008;
+      color:var(--accent);
+      font-family:var(--font-mono);
+      -webkit-font-smoothing:antialiased;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding:16px;
+    }
+
+    .scanlines{
+      pointer-events:none;
+      position:fixed;
+      inset:0;
+      background-image:linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 3px);
+      mix-blend-mode:soft-light;
+      opacity:0.06;
+      z-index:-1;
+    }
+
+    .container{
+      width:100%;
+      max-width:1440px;
+      display:grid;
+      grid-template-columns: minmax(0,1.9fr) minmax(260px,0.9fr);
+      gap:14px;
+      position:relative;
+    }
+    @media(max-width:1000px){
+      .container{grid-template-columns:1fr;}
+    }
+
+    /* HEADER */
+    .header{
+      grid-column:1/-1;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:6px;
+    }
+    .title-block{
+      display:flex;
+      flex-direction:column;
+      gap:3px;
+    }
+    .logo-glitch{
+      font-family:var(--font-ui);
+      font-size:11px;
+      letter-spacing:0.22em;
+      color:var(--accent-alt);
+      text-transform:uppercase;
+    }
+    .title{
+      font-size:20px;
+      color:var(--accent-soft);
+      text-shadow:0 0 16px rgba(91,255,191,0.55);
+    }
+    .subtitle{
+      font-family:var(--font-ui);
+      font-size:12px;
+      color:var(--muted);
+    }
+    .tagline{
+      font-size:10px;
+      color:var(--accent-alt);
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+    }
+    .header-right{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      align-items:flex-end;
+      font-size:10px;
+      color:var(--muted);
+      font-family:var(--font-ui);
+    }
+    .pill{
+      padding:3px 7px;
+      border-radius:999px;
+      border:1px solid rgba(91,255,191,0.3);
+      color:var(--accent);
+      font-size:9px;
+      margin-left:4px;
+    }
+    .leds span{
+      display:inline-block;
+      width:7px;height:7px;
+      border-radius:50%;
+      margin-left:3px;
+      background:#140014;
+      box-shadow:0 0 6px #000 inset;
+    }
+    .leds span.on-green{
+      background:#5bffbf;
+      box-shadow:0 0 10px rgba(91,255,191,0.95);
+    }
+    .leds span.on-pink{
+      background:#ff5af2;
+      box-shadow:0 0 10px rgba(255,90,242,0.9);
+    }
+
+    /* LEFT COLUMN: TERMINAL + CODE + CONTROLS */
+    .left{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .panel{
+      background:var(--bg-panel);
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow:
+        0 20px 80px rgba(0,0,0,0.95),
+        0 0 24px rgba(255,90,242,0.15) inset;
+      padding:10px;
+    }
+
+    /* Terminal main */
+    .terminal-wrap{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      position:relative;
+      overflow:hidden;
+    }
+    .terminal-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:9px;
+      color:var(--muted);
+      font-family:var(--font-ui);
+    }
+    .terminal-header span strong{
+      color:var(--accent-soft);
+      font-weight:600;
+    }
+    .terminal-screen{
+      margin-top:2px;
+      flex:1;
+      min-height:220px;
+      max-height:320px;
+      padding:8px;
+      background:
+        radial-gradient(circle at top left,rgba(255,90,242,0.14),transparent 90%),
+        radial-gradient(circle at bottom right,rgba(45,228,255,0.08),transparent 95%),
+        #02000a;
+      border-radius:9px;
+      border:1px solid rgba(91,255,191,0.14);
+      overflow-y:auto;
+      font-size:11px;
+      line-height:1.5;
+      color:#e4fff7;
+      position:relative;
+    }
+    .terminal-screen::-webkit-scrollbar{width:6px;}
+    .terminal-screen::-webkit-scrollbar-thumb{
+      background:rgba(91,255,191,0.3);
+      border-radius:20px;
+    }
+    .line{white-space:pre-wrap;word-break:break-word;}
+    .user{color:var(--accent-soft);}
+    .sys{color:var(--accent);}
+    .lyra{color:var(--accent-alt);}
+    .warn{color:var(--danger);}
+    .code{color:#9fffe6;}
+    .dim{color:var(--muted);}
+    .prompt-row{
+      margin-top:4px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:11px;
+      color:var(--accent-soft);
+    }
+    .prompt-label{flex-shrink:0;}
+    #cmd{
+      flex:1;
+      background:transparent;
+      border:none;
+      outline:none;
+      padding:3px 0;
+      color:var(--accent);
+      font-family:var(--font-mono);
+      font-size:11px;
+    }
+    #cmd::placeholder{
+      color:rgba(148,163,199,0.4);
+    }
+
+    /* Code snippets view */
+    .code-panels{
+      display:grid;
+      grid-template-columns: minmax(0,1.4fr) minmax(0,1.1fr);
+      gap:10px;
+      margin-top:4px;
+    }
+    .code-block{
+      background:radial-gradient(circle at top,rgba(0,255,191,0.07),transparent),
+                 #040013;
+      border-radius:10px;
+      border:1px solid rgba(91,255,191,0.16);
+      padding:8px;
+      font-size:10px;
+      color:var(--muted);
+      min-height:90px;
+    }
+    .code-title{
+      font-size:9px;
+      color:var(--accent-soft);
+      margin-bottom:3px;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+    }
+    pre.snippet{
+      margin-top:2px;
+      font-family:var(--font-mono);
+      font-size:9px;
+      color:#a5ffea;
+      white-space:pre;
+      overflow-x:auto;
+    }
+
+    /* RIGHT COLUMN: HUD HOLOGRAPHIQUE (distinct) */
+    .right{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .hud-card{
+      position:relative;
+      background:
+        radial-gradient(circle at top,rgba(255,90,242,0.18),transparent),
+        radial-gradient(circle at bottom,rgba(45,228,255,0.12),transparent),
+        rgba(3,0,18,0.98);
+      border-radius:16px;
+      padding:9px;
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow:
+        0 18px 70px rgba(0,0,0,0.98),
+        0 0 24px rgba(91,255,191,0.18) inset;
+      font-size:9px;
+      font-family:var(--font-ui);
+      color:var(--muted);
+      overflow:hidden;
+    }
+    .hud-label{
+      font-size:8px;
+      color:var(--accent-soft);
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      margin-bottom:3px;
+    }
+    .hud-title{
+      font-size:11px;
+      color:var(--accent);
+      margin-bottom:2px;
+    }
+    .hud-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:4px;
+      margin-top:4px;
+    }
+    .hud-stat{
+      padding:4px;
+      border-radius:8px;
+      background:rgba(3,0,18,0.96);
+      border:1px solid rgba(91,255,191,0.14);
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      font-size:8px;
+    }
+    .hud-stat-label{color:var(--muted);}
+    .hud-stat-value{color:var(--accent);font-family:var(--font-mono);}
+
+    .hud-mission-steps{
+      margin-top:4px;
+      display:flex;
+      flex-direction:column;
+      gap:3px;
+    }
+    .hud-step{
+      display:flex;
+      gap:4px;
+      align-items:flex-start;
+      font-size:8px;
+    }
+    .hud-dot{
+      margin-top:2px;
+      width:6px;height:6px;
+      border-radius:50%;
+      border:1px solid rgba(255,90,242,0.5);
+      flex-shrink:0;
+    }
+    .hud-step.done .hud-dot{
+      background:var(--accent-alt);
+      box-shadow:0 0 6px rgba(255,90,242,0.9);
+    }
+    .hud-step.done span{
+      color:var(--accent);
+    }
+
+    .hud-mini-log{
+      margin-top:4px;
+      padding:4px;
+      border-radius:8px;
+      background:rgba(5,0,24,0.92);
+      border:1px solid rgba(255,90,242,0.22);
+      font-size:8px;
+      max-height:70px;
+      overflow:auto;
+      color:var(--accent-soft);
+    }
+
+    .hud-wire{
+      position:absolute;
+      inset:auto -40px -16px;
+      height:1px;
+      background:linear-gradient(90deg,transparent,rgba(255,90,242,0.4),transparent);
+      opacity:0.4;
+      pointer-events:none;
+    }
+
+    .bar{
+      margin-top:4px;
+      width:100%;
+      height:6px;
+      border-radius:99px;
+      background:rgba(10,10,20,0.95);
+      overflow:hidden;
+      border:1px solid rgba(91,255,191,0.18);
+    }
+    .bar-fill{
+      height:100%;
+      background:linear-gradient(90deg,var(--accent-alt),var(--accent-soft));
+      width:0%;
+    }
+
+    .btn-compact{
+      margin-top:4px;
+      padding:4px 6px;
+      font-size:8px;
+      border-radius:999px;
+      border:1px solid rgba(91,255,191,0.3);
+      background:transparent;
+      color:var(--accent-soft);
+      cursor:pointer;
+    }
+    .btn-compact:hover{
+      background:rgba(255,255,255,0.03);
+      box-shadow:0 6px 20px rgba(0,0,0,0.9);
+    }
+
+  </style>
 </head>
 <body>
-<div class="container">
+<div class="scanlines"></div>
+
+<div class="container" id="pf-root">
+  <!-- HEADER -->
   <div class="header">
-    <div class="h-left">
-      <div class="title">Packet Forge — Simulateur Pédagogique (Sandbox)</div>
-      <div class="subtitle">Campagne longue · sauvegarde · Red vs Blue · Pas d'accès réel · Univers CrackTheCode</div>
+    <div class="title-block">
+      <div class="logo-glitch">CRACKTHECODE // NEON GRID OPS</div>
+      <div class="title">Packet Forge — Neon Cyber Ops</div>
+      <div class="subtitle">Simulateur d’attaque & défense 100% fictif. Vraies syntaxes, faux systèmes. Guidé par Lyra.exe.</div>
+      <div class="tagline">AUCUNE ACTION RÉELLE &mdash; SANDBOX PÉDAGOGIQUE — UNIVERS AKIRA CITY</div>
     </div>
-    <div class="controls">
-      <div class="legend">
-        <div class="box" style="background:var(--accent)"></div><div>Vos paquets</div>
-      </div>
-      <button id="btnPause" class="btn">Pause</button>
-      <button id="btnSave" class="btn">Sauvegarder</button>
-      <button id="btnLoad" class="btn">Charger</button>
-      <button id="btnExport" class="btn">Exporter</button>
-      <button id="btnImport" class="btn">Importer</button>
-      <button id="btnReset" class="btn">Reset campagne</button>
-    </div>
-  </div>
-
-  <!-- left: main gameplay -->
-  <div class="left board">
-    <div style="display:flex;gap:12px;align-items:flex-start">
-      <div style="flex:1">
-        <div class="panel">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-            <div><strong class="small">Terminal Virtuel — Packet Forge</strong></div>
-            <div class="small">Session : <span id="playerName">Sam</span> · Niveau : <span id="playerLevel">1</span></div>
-          </div>
-          <div id="terminal" class="terminal" aria-live="polite"></div>
-          <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
-            <input id="cmd" placeholder="help · mission · forge · send · inspect · block · replay · status" style="flex:1;padding:8px;border-radius:8px;background:rgba(0,0,0,0.25);border:1px solid rgba(140,255,184,0.04);color:var(--accent);font-family:var(--mono)"/>
-            <button id="btnRun" class="btn btn-primary">Exécuter</button>
-          </div>
-        </div>
-
-        <div style="display:grid;grid-template-columns:1fr 320px;gap:12px;margin-top:12px">
-          <div class="panel">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-              <div class="small">Éditeur de Paquets (FICTIF)</div>
-              <div class="small">Outils débloqués : <span id="toolsUnlocked">Basic Forge</span></div>
-            </div>
-            <div style="display:flex;gap:8px;flex-direction:column">
-              <label class="small">Type d'action</label>
-              <select id="pktType" style="padding:8px;border-radius:6px;background:rgba(0,0,0,0.12);color:var(--accent)">
-                <option value="handshake">Handshake (simulé)</option>
-                <option value="probe">Probe</option>
-                <option value="beacon">Beacon</option>
-                <option value="exfil">Exfil (fictif)</option>
-                <option value="forge">Forge payload (teaching)</option>
-              </select>
-              <label class="small">Cible</label>
-              <input id="pktTarget" style="padding:8px;border-radius:6px;background:rgba(0,0,0,0.12);color:var(--accent)" placeholder="dmz.akiranet"/>
-              <label class="small">Priorité (1-10)</label>
-              <input id="pktPrio" type="number" min="1" max="10" value="5" style="width:90px;padding:6px;border-radius:6px;background:rgba(0,0,0,0.12);color:var(--accent)"/>
-              <div style="display:flex;gap:8px;margin-top:6px">
-                <button id="btnForge" class="btn">Forge</button>
-                <button id="btnSendPkt" class="btn">Envoyer</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="panel">
-            <div class="small" style="margin-bottom:6px">Timeline & Replay</div>
-            <div id="timeline" class="debug"></div>
-            <div style="margin-top:6px;display:flex;gap:6px;align-items:center">
-              <button id="btnReplay" class="btn">Replay dernière mission</button>
-              <button id="btnExportLog" class="btn">Exporter log</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- right column: map & mission -->
-      <div class="side">
-        <div class="panel map" id="mapPanel">
-          <!-- svg map -->
-          <svg id="mapSVG" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid meet">
-            <!-- links -->
-            <g id="links" stroke="rgba(57,214,255,0.12)" stroke-width="2" fill="none">
-              <path d="M60,200 C160,80 440,80 540,200" />
-              <path d="M60,200 C160,320 440,320 540,200" />
-            </g>
-
-            <!-- nodes -->
-            <g id="nodes">
-              <g id="edge" transform="translate(40,180)">
-                <rect x="0" y="0" width="80" height="40" rx="8" fill="#052225" stroke="#033" />
-                <text x="12" y="25" fill="#7fffc8" font-size="12">EDGE</text>
-              </g>
-              <g id="scanhub" transform="translate(250,60)">
-                <rect x="0" y="0" width="110" height="40" rx="8" fill="#041225" stroke="#035" />
-                <text x="10" y="25" fill="#7fffc8" font-size="12">SCAN HUB</text>
-              </g>
-              <g id="dmz" transform="translate(460,160)">
-                <rect x="0" y="0" width="110" height="40" rx="8" fill="#071224" stroke="#036" />
-                <text x="10" y="25" fill="#7fffc8" font-size="12">DMZ</text>
-              </g>
-              <g id="core" transform="translate(260,260)">
-                <rect x="0" y="0" width="120" height="44" rx="8" fill="#081226" stroke="#048" />
-                <text x="12" y="28" fill="#7fffc8" font-size="12">CORE ARCHIVES</text>
-              </g>
-            </g>
-
-            <!-- packets layer -->
-            <g id="packetsLayer"></g>
-          </svg>
-        </div>
-
-        <div class="panel">
-          <div class="mission-title">Campagne · Mission actuelle</div>
-          <div id="missionText" class="note small">Génération en cours...</div>
-          <div style="margin-top:8px">
-            <div class="obj" style="margin-bottom:6px">
-              <div id="b1" class="bullet"></div>
-              <div id="o1" class="small">Objectif 1</div>
-            </div>
-            <div class="obj" style="margin-bottom:6px">
-              <div id="b2" class="bullet"></div>
-              <div id="o2" class="small">Objectif 2</div>
-            </div>
-            <div class="obj" style="margin-bottom:6px">
-              <div id="b3" class="bullet"></div>
-              <div id="o3" class="small">Objectif 3</div>
-            </div>
-          </div>
-
-          <div style="margin-top:8px">
-            <div class="small">Progression de la campagne</div>
-            <div class="levelbar" style="margin-top:6px"><div class="progress" id="xpProgress"></div></div>
-            <div style="margin-top:6px" class="small">XP: <span id="xp">0</span> · Joué: <span id="playTime">0h</span></div>
-          </div>
-
-          <div style="margin-top:8px" class="savebox">
-            <div class="small">Auto-save</div>
-            <div id="autosaveStatus" class="small" style="color:var(--muted)">OK</div>
-          </div>
-        </div>
-
+    <div class="header-right">
+      <div>Session: <span id="uiPlayer">sam@neon-lab</span> <span class="pill">Story-linked</span></div>
+      <div>Niveau opérateur: <span id="uiLevel">1</span> · Trace (fictive): <span id="uiTrace">0%</span></div>
+      <div>Fragments Kali détectés: <span id="uiFragments">0</span></div>
+      <div class="leds">
+        <span class="on-green"></span>
+        <span class="on-pink"></span>
+        <span></span>
       </div>
     </div>
   </div>
 
-  <div class="footer">
-    <div style="display:flex;justify-content:space-between;gap:8px;align-items:center">
-      <div class="note">Tout contenu est fictif / pédagogique. Le jeu n'exécute **aucune** commande réelle ni n'accède à l'Internet.</div>
-      <div class="small">CrackTheCode — Sam & Lyra.exe</div>
+  <!-- LEFT COLUMN -->
+  <div class="left">
+    <!-- Terminal -->
+    <div class="panel terminal-wrap">
+      <div class="terminal-header">
+        <span>NEON_TERM v2.7 &mdash; <strong>Akira Packet Forge</strong> &mdash; Type <span class="dim">help</span> pour commencer.</span>
+        <span>Les commandes ressemblent à du vrai Linux/Net, mais tout est simulé ici.</span>
+      </div>
+      <div id="term" class="terminal-screen">
+        <div class="line sys">[BOOT] Initialisation du Neon Grid...</div>
+        <div class="line sys">[SYS] Chargement des noeuds fictifs : edge, dmz, core, ghost-arc, kali-link.</div>
+        <div class="line lyra">[LYRA] Bienvenue Sam. Ici tu peux taper de "vraies" lignes de code, sans jamais toucher le monde réel.</div>
+        <div class="line lyra">[LYRA] On forge des paquets, on lit des configs, on simule des règles firewall, des scripts Python, des scans. Mais tout reste prisonnier de ce terminal.</div>
+      </div>
+      <div class="prompt-row">
+        <span class="prompt-label" id="prompt">sam@neon-lab:~/forge$</span>
+        <!-- pas d'autofocus ici -->
+        <input id="cmd" type="text"
+               placeholder="help · mission · cat neon.conf · for i in hosts: probe(i) · forge --type probe --dst dmz.akiranet"
+               autocomplete="off" spellcheck="false">
+      </div>
+
+      <!-- Code / snippets panels -->
+      <div class="code-panels">
+        <div class="code-block">
+          <div class="code-title">SNIPPET ACTIF</div>
+          <pre id="snippetActive" class="snippet">
+# Tape `show firewall` ou `show ghostscan`
+# pour voir des blocs de “vrai” code simulé.
+          </pre>
+        </div>
+        <div class="code-block">
+          <div class="code-title">NOTES DE LYRA</div>
+          <pre id="snippetLyra" class="snippet">
+# Ici, on t'habitue à lire des patterns :
+# - boucles Python qui scannent une liste d'hôtes fictifs
+# - règles de filtrage inspirées d'iptables
+# - traces de logs dans un SIEM imaginaire
+# Sans jamais donner une recette exploitable IRL.
+          </pre>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- RIGHT COLUMN: HUD CYBERPUNK -->
+  <div class="right">
+    <!-- Mission HUD -->
+    <div class="hud-card">
+      <div class="hud-label">MISSION FEED</div>
+      <div class="hud-title" id="hudMissionTitle">Initialisation de campagne</div>
+      <div id="hudMissionDesc">
+        Tu entres dans le Neon Lab. Tes actions simulent une Red Team encadrée par Lyra (Blue Team).
+        Objectif: comprendre les flux, pas briser des systèmes.
+      </div>
+      <div class="hud-mission-steps" id="hudSteps"></div>
+      <div class="hud-mini-log" id="hudMiniLog"></div>
+      <div class="hud-wire"></div>
+    </div>
+
+    <!-- Stats HUD -->
+    <div class="hud-card">
+      <div class="hud-label">NEON STATS</div>
+      <div class="hud-grid">
+        <div class="hud-stat">
+          <div class="hud-stat-label">XP simulée</div>
+          <div class="hud-stat-value" id="hudXP">0</div>
+        </div>
+        <div class="hud-stat">
+          <div class="hud-stat-label">Missions complétées</div>
+          <div class="hud-stat-value" id="hudMissions">0</div>
+        </div>
+        <div class="hud-stat">
+          <div class="hud-stat-label">Temps en dojo</div>
+          <div class="hud-stat-value" id="hudTime">0h 0m</div>
+        </div>
+        <div class="hud-stat">
+          <div class="hud-stat-label">Alertes (fictives)</div>
+          <div class="hud-stat-value" id="hudAlerts">0</div>
+        </div>
+      </div>
+      <div class="bar"><div id="hudXPBar" class="bar-fill"></div></div>
+      <button id="btnSave" class="btn-compact">Sauvegarder</button>
+      <button id="btnLoad" class="btn-compact">Charger</button>
+      <button id="btnReset" class="btn-compact">Reset campagne</button>
+    </div>
+
+    <!-- Packet Visual HUD -->
+    <div class="hud-card">
+      <div class="hud-label">NEON GRID MAP</div>
+      <div class="hud-title">Flux simulés</div>
+      <svg id="neonMap" viewBox="0 0 200 120" style="width:100%;height:80px;margin-top:2px;">
+        <!-- liens -->
+        <defs>
+          <linearGradient id="glow" x1="0" x2="1">
+            <stop offset="0%" stop-color="#ff5af2" stop-opacity="0"/>
+            <stop offset="40%" stop-color="#ff5af2" stop-opacity="0.9"/>
+            <stop offset="80%" stop-color="#2de4ff" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#2de4ff" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <g stroke="url(#glow)" stroke-width="1.3" fill="none">
+          <path d="M20 60 C60 10, 140 10, 180 60" />
+          <path d="M20 60 C60 110, 140 110, 180 60" />
+        </g>
+        <!-- nodes -->
+        <g>
+          <rect x="10" y="50" width="30" height="20" rx="4"
+                fill="#050013" stroke="#5bffbf" stroke-width="0.6"/>
+          <text x="13" y="63" fill="#5bffbf" font-size="6">EDGE</text>
+        </g>
+        <g>
+          <rect x="80" y="6" width="40" height="18" rx="4"
+                fill="#050013" stroke="#2de4ff" stroke-width="0.5"/>
+          <text x="83" y="18" fill="#2de4ff" font-size="6">SCAN HUB</text>
+        </g>
+        <g>
+          <rect x="150" y="50" width="36" height="20" rx="4"
+                fill="#050013" stroke="#ff5af2" stroke-width="0.6"/>
+          <text x="153" y="62" fill="#ff5af2" font-size="6">DMZ</text>
+        </g>
+        <g id="pktLayer"></g>
+      </svg>
+      <div class="small" style="margin-top:4px;">
+        Les points néon représentent les paquets que tu forges avec de vraies syntaxes de code,
+        mais sur des noeuds inventés uniquement.
+      </div>
+      <button id="btnReplay" class="btn-compact">Replay local</button>
+    </div>
+
   </div>
 </div>
 
 <script>
-/*
-  PACKET FORGE - Client-side simulated campaign
-  - Procedural missions
-  - Simulated packets (no real network calls)
-  - Save / load via localStorage
-  - Long campaign: mission generator produces many challenges to reach multiple hours
-  - Safety: all operations are simulated and non-actionable
-*/
-
 (function(){
-  'use strict';
+  "use strict";
 
-  // ---------- Core state ----------
+  // --- STATE ---
+  const AUTOSAVE_KEY = "ctc_neon_packetforge_v1";
+  const termEl = document.getElementById("term");
+  const cmdEl = document.getElementById("cmd");
+  const promptEl = document.getElementById("prompt");
+  const hudMissionTitle = document.getElementById("hudMissionTitle");
+  const hudMissionDesc = document.getElementById("hudMissionDesc");
+  const hudStepsEl = document.getElementById("hudSteps");
+  const hudMiniLog = document.getElementById("hudMiniLog");
+  const hudXP = document.getElementById("hudXP");
+  const hudMissions = document.getElementById("hudMissions");
+  const hudTime = document.getElementById("hudTime");
+  const hudAlerts = document.getElementById("hudAlerts");
+  const hudXPBar = document.getElementById("hudXPBar");
+  const uiLevel = document.getElementById("uiLevel");
+  const uiTrace = document.getElementById("uiTrace");
+  const uiFragments = document.getElementById("uiFragments");
+  const snippetActive = document.getElementById("snippetActive");
+  const snippetLyra = document.getElementById("snippetLyra");
+  const pktLayer = document.getElementById("pktLayer");
+  const neonMap = document.getElementById("neonMap");
+
+  const btnSave = document.getElementById("btnSave");
+  const btnLoad = document.getElementById("btnLoad");
+  const btnReset = document.getElementById("btnReset");
+  const btnReplay = document.getElementById("btnReplay");
+
   const state = {
-    player: { name: 'Sam', level:1, xp:0, playSeconds:0 },
-    mission: null,
-    paused: false,
-    timeline: [],
-    logs: [],
-    packets: [],
-    autosaveKey: 'ctc_packetforge_save_v1',
-    lastTick: Date.now()
+    level:1,
+    xp:0,
+    missionsDone:0,
+    trace:0,
+    alerts:0,
+    fragments:0,
+    playSeconds:0,
+    lastTick:Date.now(),
+    mission:null,
+    timeline:[],
+    packets:[],
+    logs:[],
   };
 
-  // ---------- DOM refs ----------
-  const terminalEl = document.getElementById('terminal');
-  const cmdEl = document.getElementById('cmd');
-  const btnRun = document.getElementById('btnRun');
-  const btnForge = document.getElementById('btnForge');
-  const btnSendPkt = document.getElementById('btnSendPkt');
-  const pktTypeEl = document.getElementById('pktType');
-  const pktTargetEl = document.getElementById('pktTarget');
-  const pktPrioEl = document.getElementById('pktPrio');
-  const packetsLayer = document.getElementById('packetsLayer');
-  const missionText = document.getElementById('missionText');
-  const b1 = document.getElementById('b1'), b2 = document.getElementById('b2'), b3 = document.getElementById('b3');
-  const o1 = document.getElementById('o1'), o2 = document.getElementById('o2'), o3 = document.getElementById('o3');
-  const xpEl = document.getElementById('xp'), xpBar = document.getElementById('xpProgress'), playTimeEl = document.getElementById('playTime');
-  const btnPause = document.getElementById('btnPause'), btnSave = document.getElementById('btnSave'), btnLoad = document.getElementById('btnLoad');
-  const btnExport = document.getElementById('btnExport'), btnImport = document.getElementById('btnImport'), btnReset = document.getElementById('btnReset');
-  const timelineEl = document.getElementById('timeline'), btnReplay = document.getElementById('btnReplay'), btnExportLog = document.getElementById('btnExportLog');
+  // --- UTILITIES ---
+  function log(msg, cls){
+    const div = document.createElement("div");
+    div.className = "line "+(cls||"");
+    div.textContent = msg;
+    termEl.appendChild(div);
+    termEl.scrollTop = termEl.scrollHeight;
+    state.logs.push({t:Date.now(), msg, cls});
+    if(state.logs.length>1500) state.logs.shift();
+  }
+  function logSys(msg){ log(msg,"sys"); }
+  function logLyra(msg){ log(msg,"lyra"); }
+  function logWarn(msg){ log(msg,"warn"); }
+  function logUser(msg){ log("> "+msg,"user"); }
 
-  // ---------- Utilities ----------
-  function now(){ return Date.now(); }
-  function formatTime(s){
-    const h = Math.floor(s/3600), m = Math.floor((s%3600)/60);
+  function hudLog(msg){
+    const l = document.createElement("div");
+    l.textContent = msg;
+    hudMiniLog.appendChild(l);
+    hudMiniLog.scrollTop = hudMiniLog.scrollHeight;
+  }
+
+  function addTimeline(ev){
+    state.timeline.push({t:Date.now(), ev});
+    if(state.timeline.length>600) state.timeline.shift();
+  }
+
+  function fmtTime(sec){
+    const h = Math.floor(sec/3600);
+    const m = Math.floor((sec%3600)/60);
     return `${h}h ${m}m`;
   }
-  function pushLog(msg, cls='sys'){
-    const line = document.createElement('div');
-    line.className = 'line '+cls;
-    line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
-    terminalEl.appendChild(line);
-    terminalEl.scrollTop = terminalEl.scrollHeight;
-    state.logs.push({t:Date.now(), msg, cls});
-    if(state.logs.length>2000) state.logs.shift();
-  }
-  function pushTimeline(event){
-    state.timeline.push({t:Date.now(), event});
-    if(state.timeline.length>1000) state.timeline.shift();
-    renderTimeline();
-  }
-  function renderTimeline(){
-    timelineEl.innerHTML = state.timeline.slice(-60).map(e=>`[${new Date(e.t).toLocaleTimeString()}] ${e.event}`).join('\n');
+
+  function updateHUD(){
+    hudXP.textContent = state.xp;
+    hudMissions.textContent = state.missionsDone;
+    hudTime.textContent = fmtTime(state.playSeconds);
+    hudAlerts.textContent = state.alerts;
+    uiLevel.textContent = state.level;
+    uiTrace.textContent = state.trace + "%";
+    uiFragments.textContent = state.fragments;
+    const pct = Math.min(100, (state.xp % 800) / 8);
+    hudXPBar.style.width = pct + "%";
   }
 
-  // ---------- Mission generator ----------
-  function genMission(difficulty=1){
-    // difficulty influences length / subtasks; design a multi-step mission
-    const phases = [
-      {id:'recon', title:'Reconnaissance: collecte d\'indices', time: 8 + difficulty*6},
-      {id:'analysis', title:'Analyse: corréler les flux', time: 12 + difficulty*8},
-      {id:'forensic', title:'Forensic: trouver l\'anomalie', time: 10 + difficulty*6},
-      {id:'mitigation', title:'Containment: neutraliser (simulé)', time: 8 + difficulty*6},
-      {id:'report', title:'Rapport: préparer un document', time: 6 + difficulty*4}
+  // --- MISSIONS ---
+
+  function createMission(){
+    const id = "M-"+Math.random().toString(36).slice(2,6).toUpperCase();
+    const steps = [
+      {
+        id:"read-conf",
+        label:'Inspecter la config fictive: `cat neon.conf` puis `show firewall`.',
+        done:false
+      },
+      {
+        id:"probe-dmz",
+        label:'Forger une sonde propre vers la DMZ: `forge --type probe --dst dmz.akiranet` puis `send`.',
+        done:false
+      },
+      {
+        id:"analyze-ghost",
+        label:'Analyser un flux étrange: `show ghostscan` puis `report` pour valider.',
+        done:false
+      }
     ];
-
-    // choose subset to reach ~target minutes (we'll chain many missions)
-    const steps = phases.filter((p,i)=> i < 3 + (difficulty>2?2:1));
-    const mission = {
-      id: 'mission_'+Date.now(),
-      difficulty,
-      title: `Opération Ghost Survey (diff ${difficulty})`,
-      description: `Mission multi-étapes — ${steps.length} phases — environ ${steps.reduce((s,p)=>s+p.time,0)} minutes de contenu.`,
-      steps: steps.map((p, idx)=>({
-        id: p.id,
-        title: p.title,
-        desc: `${p.title} — tâche: ${["collecter","analyser","isoler","bloquer","documenter"][idx%5]} données fictives`,
-        done:false,
-        expectedTimeMin: p.time
-      })),
-      created: Date.now(),
-      xpReward: 200 * difficulty
+    state.mission = {
+      id,
+      title:`Opération ${id} — Cartographie Neon`,
+      desc:`Utilise des commandes proches du réel pour cartographier un réseau imaginaire, sans toucher Internet.`,
+      steps
     };
-    return mission;
+    renderMissionUI();
+    logLyra(`[LYRA] Nouvelle mission: ${state.mission.title}`);
+    hudLog("Mission "+id+" initialisée.");
   }
 
-  // ---------- Packet model (simulated) ----------
-  function forgePacket(type, target, prio){
-    // packet is purely simulated; fields are fictional and safe
+  function renderMissionUI(){
+    if(!state.mission) return;
+    hudMissionTitle.textContent = state.mission.title;
+    hudMissionDesc.textContent = state.mission.desc;
+    hudStepsEl.innerHTML = "";
+    state.mission.steps.forEach(st=>{
+      const row = document.createElement("div");
+      row.className = "hud-step"+(st.done?" done":"");
+      row.innerHTML = `<div class="hud-dot"></div><span>${st.label}</span>`;
+      hudStepsEl.appendChild(row);
+    });
+    updateHUD();
+  }
+
+  function markStep(id){
+    if(!state.mission) return;
+    const st = state.mission.steps.find(s=>s.id===id);
+    if(st && !st.done){
+      st.done = true;
+      hudLog("Objectif terminé: "+st.label);
+      logLyra("[LYRA] Objectif validé.");
+      renderMissionUI();
+      checkMissionComplete();
+    }
+  }
+
+  function checkMissionComplete(){
+    if(!state.mission) return;
+    if(state.mission.steps.every(s=>s.done)){
+      const reward = 180; // XP fictive
+      state.xp += reward;
+      state.missionsDone++;
+      state.level = 1 + Math.floor(state.xp / 800);
+      logSys(`[SYS] Mission ${state.mission.id} complétée. +${reward} XP (fictif).`);
+      logLyra("[LYRA] Beau boulot. Ce que tu apprends ici se transpose en bonnes pratiques réelles, pas en attaques.");
+      hudLog("Mission "+state.mission.id+" complétée.");
+      state.mission = null;
+      setTimeout(createMission, 800); // enchaîner une autre
+      updateHUD();
+      saveState();
+    }
+  }
+
+  // --- PACKET SIMULATION ---
+
+  function forgePacket(args){
+    // Example: forge --type probe --dst dmz.akiranet
+    let type = "probe", dst = "dmz.akiranet";
+    for(let i=0;i<args.length;i++){
+      if(args[i] === "--type" && args[i+1]) type = args[i+1];
+      if((args[i] === "--dst" || args[i]==="--target") && args[i+1]) dst = args[i+1];
+    }
     const pkt = {
-      id: 'pkt_'+Math.random().toString(36).slice(2,9),
-      type, target, prio: +prio, created: Date.now(),
-      signature: Math.random().toString(36).slice(2,10),
-      status: 'forged'
+      id:"pkt-"+Math.random().toString(36).slice(2,7),
+      type, dst,
+      t:Date.now()
     };
     state.packets.push(pkt);
-    pushLog(`Paquet forgé: ${pkt.id} (${type}) -> ${target}`, 'sys');
-    pushTimeline(`Forge ${pkt.id} type=${type} target=${target}`);
+    logSys(`[FORGE] ${pkt.id} type=${type} -> ${dst} (sandbox).`);
+    hudLog(`Forge ${pkt.id} -> ${dst}`);
+    addTimeline("forge "+pkt.id);
+    animatePacket(pkt);
+    // progression
+    if(type==="probe" && dst==="dmz.akiranet") markStep("probe-dmz");
     return pkt;
   }
-  function sendPacket(pkt){
-    if(!pkt) return;
-    pkt.status = 'sent';
-    pkt.sentAt = Date.now();
-    pushLog(`Paquet envoyé: ${pkt.id} -> ${pkt.target} (prio ${pkt.prio})`, 'sys');
-    pushTimeline(`Send ${pkt.id} -> ${pkt.target}`);
-    animatePacket(pkt);
-    // simulated detection: higher priority and certain types increase trace
-    const traceDelta = Math.max(0, Math.floor(pkt.prio/2) + (pkt.type==='exfil'?6: (pkt.type==='beacon'?4:1)));
-    updateTrace(traceDelta);
-    // mission-specific hooks
-    evaluateMissionOnEvent({type:'send', pkt});
+
+  function sendLastPacket(){
+    const pkt = state.packets[state.packets.length-1];
+    if(!pkt){
+      logWarn("[ERR] Aucun paquet forgé.");
+      return;
+    }
+    logSys(`[SEND] ${pkt.id} poussé vers ${pkt.dst} (virtuel).`);
+    hudLog("Send "+pkt.id);
+    addTimeline("send "+pkt.id);
+    evaluatePacket(pkt);
   }
 
-  // ---------- Map packets animation ----------
-  function animatePacket(pkt){
-    // create a circle in SVG that travels along path to target node
-    const svgNS = 'http://www.w3.org/2000/svg';
-    const dot = document.createElementNS(svgNS, 'circle');
-    dot.setAttribute('r', 6);
-    dot.setAttribute('fill', pkt.type==='exfil'? '#ff9b9b' : '#8cffb8');
-    dot.setAttribute('opacity', '0.95');
-    packetsLayer.appendChild(dot);
+  function evaluatePacket(pkt){
+    // purement pédagogique
+    if(pkt.type==="probe" && pkt.dst==="dmz.akiranet"){
+      logSys("[ANALYSE] Sonde correcte sur la DMZ fictive. Rien d'agressif.");
+    }
+    if(pkt.type==="exfil"){
+      logWarn("[ALERTE] Pattern EXFIL détecté (simulation). Lyra t'explique pourquoi c'est toxique en vrai.");
+      state.alerts++;
+      state.trace = Math.min(100, state.trace+15);
+      uiTrace.textContent = state.trace+"%";
+      hudAlerts.textContent = state.alerts;
+      if(state.trace>=100){
+        logWarn("[SYS] Trace MAX. Reset soft de la simulation.");
+        softResetTrace();
+      }
+    }
+  }
 
-    // determine path points depending on target
-    const paths = {
-      'dmz.akiranet': {start:{x:80,y:200}, end:{x:470,y:180}},
-      'core': {start:{x:80,y:200}, end:{x:300,y:300}},
-      'scanhub': {start:{x:80,y:200}, end:{x:260,y:80}},
-      'ghost.akiranet': {start:{x:80,y:200}, end:{x:320,y:150}}
-    };
-    const pt = paths[pkt.target] || {start:{x:80,y:200}, end:{x:300,y:200}};
-    const c1 = {x:(pt.start.x+pt.end.x)/2, y: pt.start.y - 40};
-    const c2 = {x:(pt.start.x+pt.end.x)/2, y: pt.end.y + 40};
-    let t = 0; const speed = 0.006 + Math.random()*0.006;
-    function cubic(a,b,c,d,t){
-      const mt = 1-t;
+  function animatePacket(pkt){
+    if(!neonMap || !pktLayer) return;
+    const svgns = "http://www.w3.org/2000/svg";
+    const c = document.createElementNS(svgns,"circle");
+    c.setAttribute("r","2.4");
+    c.setAttribute("fill", pkt.type==="exfil" ? "#ff3366" : "#5bffbf");
+    pktLayer.appendChild(c);
+    // simple animation along a bezier
+    const start = {x:20,y:60};
+    const end = {x:170,y:60};
+    const c1 = {x:80,y: pkt.type==="exfil"?20:10};
+    const c2 = {x:120,y: pkt.type==="exfil"?100:110};
+    let t=0;
+    const speed = 0.02;
+    function bez(a,b,c,d,t){
+      const mt=1-t;
       return mt*mt*mt*a + 3*mt*mt*t*b + 3*mt*t*t*c + t*t*t*d;
     }
     function step(){
-      t += speed;
+      t+=speed;
       if(t>=1){
-        packetsLayer.removeChild(dot);
-        pushLog(`Paquet ${pkt.id} atteint ${pkt.target}`, 'sys');
-        evaluatePacketArrival(pkt);
+        pktLayer.removeChild(c);
         return;
       }
-      const x = cubic(pt.start.x,c1.x,c2.x,pt.end.x,t);
-      const y = cubic(pt.start.y,c1.y,c2.y,pt.end.y,t);
-      dot.setAttribute('cx', x);
-      dot.setAttribute('cy', y);
+      const x = bez(start.x,c1.x,c2.x,end.x,t);
+      const y = bez(start.y,c1.y,c2.y,end.y,t);
+      c.setAttribute("cx",x);
+      c.setAttribute("cy",y);
       requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
   }
 
-  // ---------- Trace and detection ----------
-  function updateTrace(delta){
-    state.trace = Math.max(0, Math.min(100, (state.trace||0)+delta));
-    document.getElementById('stTrace') && (document.getElementById('stTrace').textContent = state.trace + '%');
-    if(state.trace >= 100){
-      pushLog('DETECTION MAX — Simulation: containment forcé. Mission interrompue (soft reset).', 'err');
-      // simulate forced reset on detection
-      softReset();
-    }
+  function softResetTrace(){
+    state.trace = 0;
+    uiTrace.textContent = "0%";
+    hudAlerts.textContent = state.alerts;
+    logSys("[SYS] Les compteurs sont remis à zéro, tu peux reprendre proprement.");
   }
 
-  // ---------- Mission evaluation hooks ----------
-  function evaluateMissionOnEvent(ev){
-    if(!state.mission) return;
-    // simple heuristics: mark step as done when matching events
-    const m = state.mission;
-    m.steps.forEach(step=>{
-      if(!step.done){
-        if(step.id === 'recon' && ev.type==='send' && ev.pkt.type==='probe') step.done = true;
-        if(step.id === 'analysis' && ev.type==='send' && ev.pkt.type==='handshake') step.done = true;
-        if(step.id === 'forensic' && ev.type==='send' && ev.pkt.type==='forge') step.done = true;
-        if(step.id === 'mitigation' && ev.type==='mitigate') step.done = true;
-        if(step.id === 'report' && ev.type==='report') step.done = true;
-      }
-    });
-    renderMissionUI();
-    // mission complete
-    if(m.steps.every(s=>s.done)){
-      pushLog(`MISSION TERMINÉE: ${m.title} — +${m.xpReward} XP`, 'lyra');
-      state.player.xp += m.xpReward;
-      state.player.level = Math.max(1, Math.floor(1 + state.player.xp/500));
-      pushTimeline(`MissionComplete ${m.id}`);
-      grantPlayTime(5*60); // award some time estimate
-      newMission(); // generate next mission to chain hours
-    }
+  // --- CODE SNIPPETS ---
+
+  function setSnippetActive(code){
+    snippetActive.textContent = code;
+  }
+  function setSnippetLyra(code){
+    snippetLyra.textContent = code;
   }
 
-  // ---------- Packet arrival evaluation (simulated) ----------
-  function evaluatePacketArrival(pkt){
-    // On arrival, maybe trigger events, create logs, drop artifacts
-    if(pkt.type === 'exfil'){
-      // risky: create detection event
-      pushLog(`Traffic suspect détecté sur ${pkt.target} (simulé) — signature: ${pkt.signature}`, 'err');
-      updateTrace(8);
-    } else if(pkt.type === 'beacon'){
-      pushLog(`Beacon reçu par ${pkt.target} — possible presence check (simulé).`, 'sys');
-      updateTrace(3);
-    } else {
-      pushLog(`Paquet ${pkt.id} traité normalement.`, 'sys');
-    }
-    // create a "artifact" sample periodically
-    if(Math.random() < 0.3){
-      const sample = {id:'s_'+Math.random().toString(36).slice(2,8), content:'Sample artifact (simulated) ' + Math.random().toString(36).slice(2,8)};
-      state.samples = state.samples || [];
-      state.samples.push(sample);
-      pushLog(`Artifact enregistré: ${sample.id}`, 'sys');
-    }
+  function showFirewallSnippet(){
+    setSnippetActive(
+`# neon.conf (fictif)
+firewall = [
+  "allow edge -> dmz 80,443",
+  "allow scan-hub -> dmz 443",
+  "deny any -> core archives",
+  "# journalise toute anomalie EXFIL"
+]`);
+    setSnippetLyra(
+`# LYRA:
+# C'est ce genre de lecture qu'on veut.
+# Comprendre la logique des règles
+# au lieu de lancer des commandes au hasard.`);
   }
 
-  // ---------- Forging / Sending UI handlers ----------
-  btnForge.addEventListener('click', ()=>{
-    const type = pktTypeEl.value, target = pktTargetEl.value||'dmz.akiranet', prio = pktPrioEl.value||5;
-    const pkt = forgePacket(type, target, prio);
-    pushLog(`Paquet ${pkt.id} prêt à l'envoi.`, 'sys');
-    renderPacketsList();
-  });
+  function showGhostScanSnippet(){
+    setSnippetActive(
+`# ghostscan.py (sandbox)
 
-  btnSendPkt.addEventListener('click', ()=>{
-    // send last forged packet
-    const pkt = state.packets[state.packets.length-1];
-    if(!pkt){ pushLog('Aucun paquet forgé.', 'err'); return; }
-    sendPacket(pkt);
-    renderPacketsList();
-  });
+hosts = ["ghost-arc", "dmz.akiranet", "ally-hub"]
+for h in hosts:
+    resp = probe(h)   # fonction simulée
+    log(h, resp)
+`);
+    setSnippetLyra(
+`# LYRA:
+# Pattern classique: boucle sur une liste d'hôtes,
+# enregistre les réponses.
+# Dans la vraie vie: tu obtiens des autorisations
+# avant ce genre d'opérations.`);
+  }
 
-  // ---------- Terminal commands ----------
-  function handleCmd(line){
-    const raw = String(line||'').trim();
-    if(!raw) return;
-    pushLog('> '+raw, 'user');
-    pushTimeline(`cmd ${raw}`);
-    const parts = raw.split(/\s+/);
-    const cmd = parts[0].toLowerCase();
+  // --- COMMANDS ---
+
+  function handleCommand(input){
+    const line = (input||"").trim();
+    if(!line) return;
+    logUser(line);
+    addTimeline("cmd "+line);
+
+    const parts = line.split(/\s+/);
+    const cmd = parts[0];
     const args = parts.slice(1);
-    if(cmd === 'help'){
-      pushLog('Commandes (simulation): help, mission, forge, send, inspect, block, replay, status, report, clear', 'sys');
-    } else if(cmd === 'mission'){
-      renderMissionUI();
-    } else if(cmd === 'forge'){
-      const type = args[0] || pktTypeEl.value;
-      const target = args[1] || pktTargetEl.value || 'dmz.akiranet';
-      forgePacket(type, target, pktPrioEl.value||5);
-    } else if(cmd === 'send'){
-      const id = args[0];
-      if(id){
-        const pkt = state.packets.find(p=>p.id===id);
-        if(pkt) sendPacket(pkt); else pushLog('Paquet introuvable: '+id, 'err');
-      } else {
-        const pkt = state.packets[state.packets.length-1];
-        if(pkt) sendPacket(pkt); else pushLog('Aucun paquet à envoyer.', 'err');
-      }
-    } else if(cmd === 'inspect'){
-      const id = args[0];
-      if(!id){ pushLog('inspect <id> — affiche meta simulée', 'sys'); return; }
-      const pkt = state.packets.find(p=>p.id===id);
-      if(pkt) pushLog(JSON.stringify(pkt), 'sys'); else pushLog('Paquet introuvable', 'err');
-    } else if(cmd === 'block'){
-      // simulated mitigation
-      const target = args[0]||'unknown';
-      pushLog(`Mitigation simulée appliquée sur ${target}`, 'sys');
-      pushTimeline(`mitigate ${target}`);
-      evaluateMissionOnEvent({type:'mitigate', target});
-    } else if(cmd === 'status'){
-      pushLog(`Player level ${state.player.level} · XP ${state.player.xp} · trace ${state.trace||0}%`, 'sys');
-    } else if(cmd === 'replay'){
-      doReplay();
-    } else if(cmd === 'report'){
-      pushLog('Génération de rapport simulé...', 'sys');
-      pushTimeline('report');
-      evaluateMissionOnEvent({type:'report'});
-    } else if(cmd === 'clear'){
-      terminalEl.innerHTML = '';
-    } else {
-      pushLog('Commande inconnue dans ce simulateur. Tape help.', 'err');
+
+    switch(cmd){
+      case "help":
+        logSys("Commandes disponibles (toutes simulées) :");
+        logSys("  help           : cette aide");
+        logSys("  mission        : afficher les objectifs actuels");
+        logSys("  cat neon.conf  : lire la config fictive");
+        logSys("  show firewall  : afficher des règles inspirées firewall");
+        logSys("  show ghostscan : afficher un script de scan pédagogique");
+        logSys("  forge --type T --dst H  : forger un paquet");
+        logSys("  send           : envoyer le dernier paquet forgé");
+        logSys("  report         : valider tes observations");
+        logSys("  replay         : voir les derniers événements");
+        logSys("  clear          : nettoyer l'écran");
+        logLyra("[LYRA] Utilise des syntaxes réalistes, mais rappelle-toi: tout est contenu ici.");
+        break;
+
+      case "mission":
+        renderMissionUI();
+        break;
+
+      case "cat":
+        if(args[0]==="neon.conf"){
+          logSys("[FILE] neon.conf (fictif) :");
+          logSys("MODE = TRAINING_NEON");
+          logSys("NODES = edge, dmz, core, ghost-arc, kali-link");
+          logSys("OUT_OF_SCOPE = everything_real_world");
+          markStep("read-conf");
+        } else {
+          logWarn("cat: fichier inconnu dans ce lab.");
+        }
+        break;
+
+      case "show":
+        if(args[0]==="firewall"){
+          showFirewallSnippet();
+          logSys("Affichage des règles firewall fictives.");
+          markStep("read-conf");
+        } else if(args[0]==="ghostscan"){
+          showGhostScanSnippet();
+          logSys("Affichage du script ghostscan fictif.");
+          markStep("analyze-ghost");
+        } else {
+          logWarn("show: ressource inconnue.");
+        }
+        break;
+
+      case "forge":
+        forgePacket(args);
+        break;
+
+      case "send":
+        sendLastPacket();
+        break;
+
+      case "report":
+        logSys("[REPORT] Tu rédiges un rapport fictif basé sur tes observations.");
+        logLyra("[LYRA] C'est ça l'étape clé: documenter proprement.");
+        markStep("analyze-ghost");
+        markStep("probe-dmz");
+        checkMissionComplete();
+        break;
+
+      case "replay":
+        replayTimeline();
+        break;
+
+      case "clear":
+        termEl.innerHTML = "";
+        break;
+
+      default:
+        logWarn("Commande inconnue dans ce simulateur. Tape `help`.");
     }
   }
 
-  // ---------- Mission UI ----------
-  function renderMissionUI(){
-    if(!state.mission) return;
-    missionText.textContent = state.mission.description;
-    const steps = state.mission.steps;
-    o1.textContent = steps[0] ? steps[0].desc : '';
-    o2.textContent = steps[1] ? steps[1].desc : '';
-    o3.textContent = steps[2] ? steps[2].desc : '';
-    b1.className = 'bullet' + (steps[0] && steps[0].done ? ' done':'' );
-    b2.className = 'bullet' + (steps[1] && steps[1].done ? ' done':'' );
-    b3.className = 'bullet' + (steps[2] && steps[2].done ? ' done':'' );
-    xpEl.textContent = state.player.xp;
-    xpBar.style.width = Math.min(100, (state.player.xp % 500)/5) + '%';
-    document.getElementById('playerLevel').textContent = state.player.level;
-    playTimeEl.textContent = formatTime(state.player.playSeconds || 0);
+  function replayTimeline(){
+    logSys("[REPLAY] Dernières actions locales :");
+    state.timeline.slice(-20).forEach(e=>{
+      logSys(" - "+new Date(e.t).toLocaleTimeString()+" · "+e.ev);
+    });
   }
 
-  // ---------- Start / Next mission ----------
-  function newMission(){
-    state.mission = genMission(Math.min(4, Math.max(1, Math.floor(state.player.level/2)+1)));
-    pushLog('Nouvelle mission générée: ' + state.mission.title, 'lyra');
-    pushTimeline('newMission ' + state.mission.id);
-    renderMissionUI();
-  }
+  // --- SAVE / LOAD ---
 
-  // ---------- Replay / timeline ----------
-  function doReplay(){
-    pushLog('Replay simulation (fictif) — relecture des dernières actions', 'sys');
-    // just print last timeline events
-    const last = state.timeline.slice(-30);
-    last.forEach(e=> pushLog(`[Repl] ${new Date(e.t).toLocaleTimeString()} ${e.event}`, 'sys'));
-  }
-
-  // ---------- Save / Load ----------
   function saveState(){
     try{
-      const snapshot = JSON.stringify(state);
-      localStorage.setItem(state.autosaveKey, snapshot);
-      document.getElementById('autosaveStatus').textContent = 'OK';
-      pushLog('Partie sauvegardée localement.', 'sys');
+      const data = {
+        level:state.level,
+        xp:state.xp,
+        missionsDone:state.missionsDone,
+        trace:state.trace,
+        alerts:state.alerts,
+        fragments:state.fragments,
+        playSeconds:state.playSeconds,
+        mission:state.mission
+      };
+      localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(data));
+      hudLog("Sauvegarde locale OK.");
     }catch(e){
-      pushLog('Erreur sauvegarde: ' + e.message, 'err');
+      logWarn("Erreur sauvegarde: "+e.message);
     }
   }
+
   function loadState(){
     try{
-      const raw = localStorage.getItem(state.autosaveKey);
-      if(!raw) { pushLog('Aucune sauvegarde trouvée.', 'err'); return; }
-      const obj = JSON.parse(raw);
-      // merge minimal
-      state.player = obj.player || state.player;
-      state.mission = obj.mission || state.mission;
-      state.packets = obj.packets || state.packets;
-      state.timeline = obj.timeline || state.timeline;
-      state.logs = obj.logs || state.logs;
-      state.samples = obj.samples || state.samples;
-      pushLog('Sauvegarde chargée.', 'sys');
+      const raw = localStorage.getItem(AUTOSAVE_KEY);
+      if(!raw){ logWarn("Aucune sauvegarde trouvée."); return; }
+      const data = JSON.parse(raw);
+      Object.assign(state, {
+        level:data.level||1,
+        xp:data.xp||0,
+        missionsDone:data.missionsDone||0,
+        trace:data.trace||0,
+        alerts:data.alerts||0,
+        fragments:data.fragments||0,
+        playSeconds:data.playSeconds||0,
+        mission:data.mission||null
+      });
+      if(!state.mission) createMission();
       renderMissionUI();
-      renderPacketsList();
+      updateHUD();
+      hudLog("Sauvegarde chargée.");
+      logSys("[SYS] État restauré depuis la sauvegarde locale.");
     }catch(e){
-      pushLog('Erreur chargement: ' + e.message, 'err');
+      logWarn("Erreur chargement: "+e.message);
     }
   }
 
-  // ---------- Export/Import ----------
-  btnExport.addEventListener('click', ()=>{
-    const data = JSON.stringify(state);
-    const blob = new Blob([data], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'ctc_packetforge_save.json'; a.click();
-    URL.revokeObjectURL(url);
-    pushLog('Export de la sauvegarde initié.', 'sys');
-  });
-  btnImport.addEventListener('click', ()=>{
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'application/json';
-    input.onchange = e=>{
-      const f = e.target.files[0];
-      const r = new FileReader();
-      r.onload = ev=>{
-        try{
-          const obj = JSON.parse(ev.target.result);
-          // naive replace
-          Object.assign(state, obj);
-          pushLog('Import OK.', 'sys');
-          renderMissionUI();
-        }catch(err){ pushLog('Import failed: '+err.message, 'err'); }
-      };
-      r.readAsText(f);
-    };
-    input.click();
-  });
-
-  // ---------- Reset ----------
-  btnReset.addEventListener('click', ()=>{
-    if(confirm('Reset campagne ? Tout progrès local sera perdu.')){
-      localStorage.removeItem(state.autosaveKey);
-      location.reload();
-    }
-  });
-
-  // ---------- Packets list render (small) ----------
-  function renderPacketsList(){
-    // small debug: list last 8
-    // but keep it light — we'll put short info in timeline instead
-    // also update samples
-    document.getElementById('toolsUnlocked').textContent = 'Basic Forge';
+  function resetAll(){
+    if(!confirm("Reset complet de la campagne locale ?")) return;
+    localStorage.removeItem(AUTOSAVE_KEY);
+    location.reload();
   }
 
-  // ---------- Replay export logs ----------
-  btnExportLog.addEventListener('click', ()=>{
-    const blob = new Blob([state.logs.map(l=>`${new Date(l.t).toLocaleString()} ${l.msg}`).join('\n')], {type:'text/plain'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = 'ctc_packetforge_log.txt'; a.click(); URL.revokeObjectURL(url);
-    pushLog('Export du log initié.', 'sys');
-  });
-
-  // ---------- time tick & autosave ----------
+  // --- TIME TICK ---
   setInterval(()=>{
-    if(state.paused) return;
-    const nowT = now();
-    const delta = Math.floor((nowT - state.lastTick)/1000);
-    if(delta>0){
-      state.player.playSeconds = (state.player.playSeconds||0) + delta;
-      state.lastTick = nowT;
-      // autosave every 20 seconds
-      if((state.player.playSeconds % 20) === 0) saveState();
-      document.getElementById('playTime').textContent = formatTime(state.player.playSeconds);
+    const now = Date.now();
+    const dt = Math.floor((now - state.lastTick)/1000);
+    if(dt > 0){
+      state.lastTick = now;
+      state.playSeconds += dt;
+      if(state.playSeconds % 30 === 0) saveState();
+      updateHUD();
     }
-  },1000);
+  }, 1000);
 
-  // ---------- soft reset ----------
-  function softReset(){
-    // clear mission progress but preserve overall xp
-    state.mission && state.mission.steps.forEach(s=> s.done = false);
-    state.trace = 0;
-    document.getElementById('stTrace') && (document.getElementById('stTrace').textContent = '0%');
-    pushTimeline('softReset');
-    renderMissionUI();
-  }
-
-  // ---------- initial boot ----------
+  // --- INIT ---
   function boot(){
-    pushLog('Boot simulation — Packet Forge (CrackTheCode) — sandbox pédagogique', 'sys');
-    pushLog('Lyra.exe active — mode éducatif', 'lyra');
-    newMission();
-    saveState();
+    logSys("[SYS] Neon Cyber Ops prêt. Tape `help` ou `mission`.");
+    if(localStorage.getItem(AUTOSAVE_KEY)){
+      logLyra("[LYRA] Sauvegarde détectée. Clique sur Charger ou continue une nouvelle run.");
+    }
+    createMission();
+    updateHUD();
   }
 
-  // ---------- UI wiring ----------
-  btnRun.addEventListener('click', ()=> handleCmd(cmdEl.value) );
-  cmdEl.addEventListener('keydown', e=>{ if(e.key === 'Enter') { handleCmd(cmdEl.value); cmdEl.value=''; } });
-
-  document.getElementById('btnPause').addEventListener('click', ()=>{
-    state.paused = !state.paused;
-    btnPause.textContent = state.paused ? 'Resume' : 'Pause';
-    pushLog(state.paused ? 'Simulation en pause' : 'Simulation reprise', 'sys');
+  // --- EVENTS ---
+  const root = document.getElementById("pf-root");
+  root.addEventListener("click", (e)=>{
+    if(e.target !== cmdEl){
+      setTimeout(()=>cmdEl.focus(),20);
+    }
   });
 
-  document.getElementById('btnSave').addEventListener('click', saveState);
-  document.getElementById('btnLoad').addEventListener('click', loadState);
-
-  btnReplay.addEventListener('click', ()=> doReplay());
-
-  // simple click handlers for forge/send
-  document.getElementById('btnSendPkt').addEventListener('click', ()=>{
-    const pkt = state.packets[state.packets.length-1];
-    if(!pkt){ pushLog('Aucun paquet forgé.', 'err'); return; }
-    sendPacket(pkt);
+  cmdEl.addEventListener("keydown", (e)=>{
+    if(e.key === "Enter"){
+      const v = cmdEl.value;
+      cmdEl.value = "";
+      handleCommand(v);
+    }
   });
 
-  // ----- start -----
+  btnSave.addEventListener("click", saveState);
+  btnLoad.addEventListener("click", loadState);
+  btnReset.addEventListener("click", resetAll);
+  btnReplay.addEventListener("click", replayTimeline);
+
+  // --- START ---
   boot();
-
-  // Expose state for dev console (optional)
-  window._CTC = {state, forgePacket, sendPacket, saveState, loadState};
 
 })();
 </script>

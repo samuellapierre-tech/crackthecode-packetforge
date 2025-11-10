@@ -12,7 +12,7 @@
       --accent-soft:#2de4ff;
       --accent-alt:#ff5af2;
       --danger:#ff3366;
-      --muted:#8f9bb3;
+      --muted:#a0aec0;
       --border-soft:rgba(91,255,191,0.22);
       --font-mono:"Fira Code","JetBrains Mono",ui-monospace,Menlo,monospace;
       --font-ui:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",system-ui,sans-serif;
@@ -26,11 +26,12 @@
         #020008;
       color:var(--accent);
       font-family:var(--font-mono);
+      font-size:14px;
       -webkit-font-smoothing:antialiased;
       display:flex;
       justify-content:center;
       align-items:flex-start;
-      padding:16px;
+      padding:18px;
     }
 
     .scanlines{
@@ -39,7 +40,7 @@
       inset:0;
       background-image:linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 3px);
       mix-blend-mode:soft-light;
-      opacity:0.06;
+      opacity:0.05;
       z-index:-1;
     }
 
@@ -48,7 +49,7 @@
       max-width:1440px;
       display:grid;
       grid-template-columns: minmax(0,1.9fr) minmax(260px,0.9fr);
-      gap:14px;
+      gap:16px;
       position:relative;
     }
     @media(max-width:1000px){
@@ -61,13 +62,13 @@
       display:flex;
       justify-content:space-between;
       align-items:flex-start;
-      gap:12px;
-      margin-bottom:6px;
+      gap:14px;
+      margin-bottom:8px;
     }
     .title-block{
       display:flex;
       flex-direction:column;
-      gap:3px;
+      gap:4px;
     }
     .logo-glitch{
       font-family:var(--font-ui);
@@ -77,17 +78,17 @@
       text-transform:uppercase;
     }
     .title{
-      font-size:20px;
+      font-size:24px;
       color:var(--accent-soft);
       text-shadow:0 0 16px rgba(91,255,191,0.55);
     }
     .subtitle{
       font-family:var(--font-ui);
-      font-size:12px;
+      font-size:14px;
       color:var(--muted);
     }
     .tagline{
-      font-size:10px;
+      font-size:11px;
       color:var(--accent-alt);
       text-transform:uppercase;
       letter-spacing:0.12em;
@@ -97,23 +98,23 @@
       flex-direction:column;
       gap:4px;
       align-items:flex-end;
-      font-size:10px;
+      font-size:12px;
       color:var(--muted);
       font-family:var(--font-ui);
     }
     .pill{
-      padding:3px 7px;
+      padding:3px 8px;
       border-radius:999px;
       border:1px solid rgba(91,255,191,0.3);
       color:var(--accent);
-      font-size:9px;
+      font-size:10px;
       margin-left:4px;
     }
     .leds span{
       display:inline-block;
-      width:7px;height:7px;
+      width:8px;height:8px;
       border-radius:50%;
-      margin-left:3px;
+      margin-left:4px;
       background:#140014;
       box-shadow:0 0 6px #000 inset;
     }
@@ -126,27 +127,27 @@
       box-shadow:0 0 10px rgba(255,90,242,0.9);
     }
 
-    /* LEFT COLUMN: TERMINAL + CODE + CONTROLS */
+    /* LEFT COLUMN */
     .left{
       display:flex;
       flex-direction:column;
-      gap:10px;
+      gap:12px;
     }
     .panel{
       background:var(--bg-panel);
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.03);
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,0.04);
       box-shadow:
-        0 20px 80px rgba(0,0,0,0.95),
-        0 0 24px rgba(255,90,242,0.15) inset;
-      padding:10px;
+        0 22px 80px rgba(0,0,0,0.96),
+        0 0 24px rgba(255,90,242,0.14) inset;
+      padding:12px;
     }
 
-    /* Terminal main */
+    /* Terminal */
     .terminal-wrap{
       display:flex;
       flex-direction:column;
-      gap:6px;
+      gap:8px;
       position:relative;
       overflow:hidden;
     }
@@ -154,7 +155,7 @@
       display:flex;
       justify-content:space-between;
       align-items:center;
-      font-size:9px;
+      font-size:12px;
       color:var(--muted);
       font-family:var(--font-ui);
     }
@@ -165,24 +166,24 @@
     .terminal-screen{
       margin-top:2px;
       flex:1;
-      min-height:220px;
-      max-height:320px;
-      padding:8px;
+      min-height:260px;
+      max-height:360px;
+      padding:10px;
       background:
-        radial-gradient(circle at top left,rgba(255,90,242,0.14),transparent 90%),
-        radial-gradient(circle at bottom right,rgba(45,228,255,0.08),transparent 95%),
+        radial-gradient(circle at top left,rgba(255,90,242,0.16),transparent 90%),
+        radial-gradient(circle at bottom right,rgba(45,228,255,0.10),transparent 95%),
         #02000a;
-      border-radius:9px;
-      border:1px solid rgba(91,255,191,0.14);
+      border-radius:10px;
+      border:1px solid rgba(91,255,191,0.16);
       overflow-y:auto;
-      font-size:11px;
-      line-height:1.5;
+      font-size:13px;
+      line-height:1.6;
       color:#e4fff7;
       position:relative;
     }
-    .terminal-screen::-webkit-scrollbar{width:6px;}
+    .terminal-screen::-webkit-scrollbar{width:7px;}
     .terminal-screen::-webkit-scrollbar-thumb{
-      background:rgba(91,255,191,0.3);
+      background:rgba(91,255,191,0.35);
       border-radius:20px;
     }
     .line{white-space:pre-wrap;word-break:break-word;}
@@ -190,14 +191,13 @@
     .sys{color:var(--accent);}
     .lyra{color:var(--accent-alt);}
     .warn{color:var(--danger);}
-    .code{color:#9fffe6;}
     .dim{color:var(--muted);}
     .prompt-row{
-      margin-top:4px;
+      margin-top:6px;
       display:flex;
       align-items:center;
-      gap:6px;
-      font-size:11px;
+      gap:8px;
+      font-size:13px;
       color:var(--accent-soft);
     }
     .prompt-label{flex-shrink:0;}
@@ -206,53 +206,53 @@
       background:transparent;
       border:none;
       outline:none;
-      padding:3px 0;
+      padding:4px 0;
       color:var(--accent);
       font-family:var(--font-mono);
-      font-size:11px;
+      font-size:13px;
     }
     #cmd::placeholder{
-      color:rgba(148,163,199,0.4);
+      color:rgba(148,163,199,0.6);
     }
 
-    /* Code snippets view */
+    /* Code panels */
     .code-panels{
       display:grid;
       grid-template-columns: minmax(0,1.4fr) minmax(0,1.1fr);
       gap:10px;
-      margin-top:4px;
+      margin-top:6px;
     }
     .code-block{
-      background:radial-gradient(circle at top,rgba(0,255,191,0.07),transparent),
+      background:radial-gradient(circle at top,rgba(0,255,191,0.06),transparent),
                  #040013;
       border-radius:10px;
-      border:1px solid rgba(91,255,191,0.16);
+      border:1px solid rgba(91,255,191,0.18);
       padding:8px;
-      font-size:10px;
+      font-size:12px;
       color:var(--muted);
-      min-height:90px;
+      min-height:110px;
     }
     .code-title{
-      font-size:9px;
+      font-size:11px;
       color:var(--accent-soft);
-      margin-bottom:3px;
+      margin-bottom:4px;
       text-transform:uppercase;
-      letter-spacing:0.12em;
+      letter-spacing:0.1em;
     }
     pre.snippet{
       margin-top:2px;
       font-family:var(--font-mono);
-      font-size:9px;
+      font-size:11px;
       color:#a5ffea;
       white-space:pre;
       overflow-x:auto;
     }
 
-    /* RIGHT COLUMN: HUD HOLOGRAPHIQUE (distinct) */
+    /* RIGHT COLUMN */
     .right{
       display:flex;
       flex-direction:column;
-      gap:10px;
+      gap:12px;
     }
     .hud-card{
       position:relative;
@@ -261,62 +261,62 @@
         radial-gradient(circle at bottom,rgba(45,228,255,0.12),transparent),
         rgba(3,0,18,0.98);
       border-radius:16px;
-      padding:9px;
-      border:1px solid rgba(255,255,255,0.04);
+      padding:10px;
+      border:1px solid rgba(255,255,255,0.05);
       box-shadow:
-        0 18px 70px rgba(0,0,0,0.98),
-        0 0 24px rgba(91,255,191,0.18) inset;
-      font-size:9px;
+        0 20px 70px rgba(0,0,0,0.98),
+        0 0 24px rgba(91,255,191,0.20) inset;
+      font-size:12px;
       font-family:var(--font-ui);
       color:var(--muted);
       overflow:hidden;
     }
     .hud-label{
-      font-size:8px;
+      font-size:10px;
       color:var(--accent-soft);
-      letter-spacing:0.16em;
+      letter-spacing:0.14em;
       text-transform:uppercase;
       margin-bottom:3px;
     }
     .hud-title{
-      font-size:11px;
+      font-size:14px;
       color:var(--accent);
-      margin-bottom:2px;
+      margin-bottom:3px;
     }
     .hud-grid{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:4px;
-      margin-top:4px;
+      gap:6px;
+      margin-top:6px;
     }
     .hud-stat{
-      padding:4px;
+      padding:5px 6px;
       border-radius:8px;
       background:rgba(3,0,18,0.96);
-      border:1px solid rgba(91,255,191,0.14);
+      border:1px solid rgba(91,255,191,0.18);
       display:flex;
       flex-direction:column;
       gap:2px;
-      font-size:8px;
+      font-size:10px;
     }
     .hud-stat-label{color:var(--muted);}
     .hud-stat-value{color:var(--accent);font-family:var(--font-mono);}
 
     .hud-mission-steps{
-      margin-top:4px;
+      margin-top:6px;
       display:flex;
       flex-direction:column;
-      gap:3px;
+      gap:4px;
     }
     .hud-step{
       display:flex;
-      gap:4px;
+      gap:5px;
       align-items:flex-start;
-      font-size:8px;
+      font-size:11px;
     }
     .hud-dot{
-      margin-top:2px;
-      width:6px;height:6px;
+      margin-top:4px;
+      width:7px;height:7px;
       border-radius:50%;
       border:1px solid rgba(255,90,242,0.5);
       flex-shrink:0;
@@ -330,34 +330,34 @@
     }
 
     .hud-mini-log{
-      margin-top:4px;
-      padding:4px;
+      margin-top:6px;
+      padding:5px 6px;
       border-radius:8px;
-      background:rgba(5,0,24,0.92);
+      background:rgba(5,0,24,0.96);
       border:1px solid rgba(255,90,242,0.22);
-      font-size:8px;
-      max-height:70px;
+      font-size:10px;
+      max-height:90px;
       overflow:auto;
       color:var(--accent-soft);
     }
 
     .hud-wire{
       position:absolute;
-      inset:auto -40px -16px;
+      inset:auto -40px -14px;
       height:1px;
-      background:linear-gradient(90deg,transparent,rgba(255,90,242,0.4),transparent);
-      opacity:0.4;
+      background:linear-gradient(90deg,transparent,rgba(255,90,242,0.5),transparent);
+      opacity:0.5;
       pointer-events:none;
     }
 
     .bar{
-      margin-top:4px;
+      margin-top:6px;
       width:100%;
-      height:6px;
-      border-radius:99px;
-      background:rgba(10,10,20,0.95);
+      height:8px;
+      border-radius:999px;
+      background:rgba(10,10,20,0.98);
       overflow:hidden;
-      border:1px solid rgba(91,255,191,0.18);
+      border:1px solid rgba(91,255,191,0.22);
     }
     .bar-fill{
       height:100%;
@@ -366,9 +366,9 @@
     }
 
     .btn-compact{
-      margin-top:4px;
-      padding:4px 6px;
-      font-size:8px;
+      margin-top:6px;
+      padding:5px 8px;
+      font-size:10px;
       border-radius:999px;
       border:1px solid rgba(91,255,191,0.3);
       background:transparent;
@@ -376,10 +376,14 @@
       cursor:pointer;
     }
     .btn-compact:hover{
-      background:rgba(255,255,255,0.03);
-      box-shadow:0 6px 20px rgba(0,0,0,0.9);
+      background:rgba(255,255,255,0.04);
+      box-shadow:0 6px 22px rgba(0,0,0,0.9);
     }
 
+    /* Map */
+    #neonMap{
+      margin-top:4px;
+    }
   </style>
 </head>
 <body>
@@ -392,7 +396,7 @@
       <div class="logo-glitch">CRACKTHECODE // NEON GRID OPS</div>
       <div class="title">Packet Forge — Neon Cyber Ops</div>
       <div class="subtitle">Simulateur d’attaque & défense 100% fictif. Vraies syntaxes, faux systèmes. Guidé par Lyra.exe.</div>
-      <div class="tagline">AUCUNE ACTION RÉELLE &mdash; SANDBOX PÉDAGOGIQUE — UNIVERS AKIRA CITY</div>
+      <div class="tagline">AUCUNE ACTION RÉELLE — SANDBOX PÉDAGOGIQUE — UNIVERS AKIRA CITY</div>
     </div>
     <div class="header-right">
       <div>Session: <span id="uiPlayer">sam@neon-lab</span> <span class="pill">Story-linked</span></div>
@@ -406,60 +410,57 @@
     </div>
   </div>
 
-  <!-- LEFT COLUMN -->
+  <!-- LEFT -->
   <div class="left">
-    <!-- Terminal -->
     <div class="panel terminal-wrap">
       <div class="terminal-header">
-        <span>NEON_TERM v2.7 &mdash; <strong>Akira Packet Forge</strong> &mdash; Type <span class="dim">help</span> pour commencer.</span>
-        <span>Les commandes ressemblent à du vrai Linux/Net, mais tout est simulé ici.</span>
+        <span>NEON_TERM v2.7 — <strong>Akira Packet Forge</strong> — Tape <span class="dim">help</span> pour commencer.</span>
+        <span>Syntaxes proches du réel, mais verrouillées dans ce sandbox.</span>
       </div>
       <div id="term" class="terminal-screen">
         <div class="line sys">[BOOT] Initialisation du Neon Grid...</div>
         <div class="line sys">[SYS] Chargement des noeuds fictifs : edge, dmz, core, ghost-arc, kali-link.</div>
-        <div class="line lyra">[LYRA] Bienvenue Sam. Ici tu peux taper de "vraies" lignes de code, sans jamais toucher le monde réel.</div>
-        <div class="line lyra">[LYRA] On forge des paquets, on lit des configs, on simule des règles firewall, des scripts Python, des scans. Mais tout reste prisonnier de ce terminal.</div>
+        <div class="line lyra">[LYRA] Bienvenue Sam. Ici tu peux taper des lignes de code comme dans un vrai lab, mais rien ne sort de ce terminal.</div>
+        <div class="line lyra">[LYRA] On forge des paquets, on lit des configs, on simule des scans. Tout reste 100% légal et narratif.</div>
       </div>
       <div class="prompt-row">
         <span class="prompt-label" id="prompt">sam@neon-lab:~/forge$</span>
-        <!-- pas d'autofocus ici -->
         <input id="cmd" type="text"
-               placeholder="help · mission · cat neon.conf · for i in hosts: probe(i) · forge --type probe --dst dmz.akiranet"
+               placeholder="help · mission · cat neon.conf · show firewall · forge --type probe --dst dmz.akiranet"
                autocomplete="off" spellcheck="false">
       </div>
 
-      <!-- Code / snippets panels -->
       <div class="code-panels">
         <div class="code-block">
           <div class="code-title">SNIPPET ACTIF</div>
           <pre id="snippetActive" class="snippet">
 # Tape `show firewall` ou `show ghostscan`
-# pour voir des blocs de “vrai” code simulé.
+# pour afficher du pseudo-code réseau/Python simulé.
           </pre>
         </div>
         <div class="code-block">
           <div class="code-title">NOTES DE LYRA</div>
           <pre id="snippetLyra" class="snippet">
-# Ici, on t'habitue à lire des patterns :
-# - boucles Python qui scannent une liste d'hôtes fictifs
-# - règles de filtrage inspirées d'iptables
-# - traces de logs dans un SIEM imaginaire
-# Sans jamais donner une recette exploitable IRL.
+# Ici, tu t'entraînes à lire:
+# - boucles Python qui sondent des hôtes fictifs
+# - règles proches d'iptables
+# - logs & patterns d'attaque vus côté défense
+# Rien n'est exploitable hors de ce jeu.
           </pre>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- RIGHT COLUMN: HUD CYBERPUNK -->
+  <!-- RIGHT -->
   <div class="right">
     <!-- Mission HUD -->
     <div class="hud-card">
       <div class="hud-label">MISSION FEED</div>
       <div class="hud-title" id="hudMissionTitle">Initialisation de campagne</div>
       <div id="hudMissionDesc">
-        Tu entres dans le Neon Lab. Tes actions simulent une Red Team encadrée par Lyra (Blue Team).
-        Objectif: comprendre les flux, pas briser des systèmes.
+        Tu entres dans le Neon Lab. Tu joues une Red Team encadrée par Lyra en Blue Team.
+        On t'apprend à lire, corréler, documenter. Pas à casser du vrai système.
       </div>
       <div class="hud-mission-steps" id="hudSteps"></div>
       <div class="hud-mini-log" id="hudMiniLog"></div>
@@ -493,12 +494,11 @@
       <button id="btnReset" class="btn-compact">Reset campagne</button>
     </div>
 
-    <!-- Packet Visual HUD -->
+    <!-- Map HUD -->
     <div class="hud-card">
       <div class="hud-label">NEON GRID MAP</div>
       <div class="hud-title">Flux simulés</div>
-      <svg id="neonMap" viewBox="0 0 200 120" style="width:100%;height:80px;margin-top:2px;">
-        <!-- liens -->
+      <svg id="neonMap" viewBox="0 0 200 120" style="width:100%;height:90px;margin-top:4px;">
         <defs>
           <linearGradient id="glow" x1="0" x2="1">
             <stop offset="0%" stop-color="#ff5af2" stop-opacity="0"/>
@@ -507,35 +507,33 @@
             <stop offset="100%" stop-color="#2de4ff" stop-opacity="0"/>
           </linearGradient>
         </defs>
-        <g stroke="url(#glow)" stroke-width="1.3" fill="none">
+        <g stroke="url(#glow)" stroke-width="1.5" fill="none">
           <path d="M20 60 C60 10, 140 10, 180 60" />
           <path d="M20 60 C60 110, 140 110, 180 60" />
         </g>
-        <!-- nodes -->
         <g>
-          <rect x="10" y="50" width="30" height="20" rx="4"
+          <rect x="10" y="50" width="34" height="20" rx="4"
                 fill="#050013" stroke="#5bffbf" stroke-width="0.6"/>
-          <text x="13" y="63" fill="#5bffbf" font-size="6">EDGE</text>
+          <text x="13" y="63" fill="#5bffbf" font-size="7">EDGE</text>
         </g>
         <g>
-          <rect x="80" y="6" width="40" height="18" rx="4"
+          <rect x="80" y="6" width="48" height="18" rx="4"
                 fill="#050013" stroke="#2de4ff" stroke-width="0.5"/>
-          <text x="83" y="18" fill="#2de4ff" font-size="6">SCAN HUB</text>
+          <text x="83" y="18" fill="#2de4ff" font-size="7">SCAN HUB</text>
         </g>
         <g>
-          <rect x="150" y="50" width="36" height="20" rx="4"
+          <rect x="150" y="50" width="38" height="20" rx="4"
                 fill="#050013" stroke="#ff5af2" stroke-width="0.6"/>
-          <text x="153" y="62" fill="#ff5af2" font-size="6">DMZ</text>
+          <text x="153" y="63" fill="#ff5af2" font-size="7">DMZ</text>
         </g>
         <g id="pktLayer"></g>
       </svg>
-      <div class="small" style="margin-top:4px;">
-        Les points néon représentent les paquets que tu forges avec de vraies syntaxes de code,
-        mais sur des noeuds inventés uniquement.
+      <div class="small" style="margin-top:6px;">
+        Les points néon représentent les paquets que tu forges avec des syntaxes réalistes,
+        mais vers des noeuds inventés uniquement.
       </div>
       <button id="btnReplay" class="btn-compact">Replay local</button>
     </div>
-
   </div>
 </div>
 
@@ -543,8 +541,8 @@
 (function(){
   "use strict";
 
-  // --- STATE ---
-  const AUTOSAVE_KEY = "ctc_neon_packetforge_v1";
+  const AUTOSAVE_KEY = "ctc_neon_packetforge_v1b";
+
   const termEl = document.getElementById("term");
   const cmdEl = document.getElementById("cmd");
   const promptEl = document.getElementById("prompt");
@@ -564,7 +562,6 @@
   const snippetLyra = document.getElementById("snippetLyra");
   const pktLayer = document.getElementById("pktLayer");
   const neonMap = document.getElementById("neonMap");
-
   const btnSave = document.getElementById("btnSave");
   const btnLoad = document.getElementById("btnLoad");
   const btnReset = document.getElementById("btnReset");
@@ -582,28 +579,27 @@
     mission:null,
     timeline:[],
     packets:[],
-    logs:[],
+    logs:[]
   };
 
-  // --- UTILITIES ---
   function log(msg, cls){
     const div = document.createElement("div");
-    div.className = "line "+(cls||"");
+    div.className = "line " + (cls||"");
     div.textContent = msg;
     termEl.appendChild(div);
     termEl.scrollTop = termEl.scrollHeight;
     state.logs.push({t:Date.now(), msg, cls});
     if(state.logs.length>1500) state.logs.shift();
   }
-  function logSys(msg){ log(msg,"sys"); }
-  function logLyra(msg){ log(msg,"lyra"); }
-  function logWarn(msg){ log(msg,"warn"); }
-  function logUser(msg){ log("> "+msg,"user"); }
+  const logSys = m=>log(m,"sys");
+  const logLyra = m=>log(m,"lyra");
+  const logWarn = m=>log(m,"warn");
+  const logUser = m=>log("> "+m,"user");
 
   function hudLog(msg){
-    const l = document.createElement("div");
-    l.textContent = msg;
-    hudMiniLog.appendChild(l);
+    const d = document.createElement("div");
+    d.textContent = msg;
+    hudMiniLog.appendChild(d);
     hudMiniLog.scrollTop = hudMiniLog.scrollHeight;
   }
 
@@ -612,9 +608,9 @@
     if(state.timeline.length>600) state.timeline.shift();
   }
 
-  function fmtTime(sec){
-    const h = Math.floor(sec/3600);
-    const m = Math.floor((sec%3600)/60);
+  function fmtTime(s){
+    const h = Math.floor(s/3600);
+    const m = Math.floor((s%3600)/60);
     return `${h}h ${m}m`;
   }
 
@@ -624,37 +620,24 @@
     hudTime.textContent = fmtTime(state.playSeconds);
     hudAlerts.textContent = state.alerts;
     uiLevel.textContent = state.level;
-    uiTrace.textContent = state.trace + "%";
+    uiTrace.textContent = state.trace+"%";
     uiFragments.textContent = state.fragments;
     const pct = Math.min(100, (state.xp % 800) / 8);
     hudXPBar.style.width = pct + "%";
   }
 
-  // --- MISSIONS ---
-
+  // Missions
   function createMission(){
     const id = "M-"+Math.random().toString(36).slice(2,6).toUpperCase();
     const steps = [
-      {
-        id:"read-conf",
-        label:'Inspecter la config fictive: `cat neon.conf` puis `show firewall`.',
-        done:false
-      },
-      {
-        id:"probe-dmz",
-        label:'Forger une sonde propre vers la DMZ: `forge --type probe --dst dmz.akiranet` puis `send`.',
-        done:false
-      },
-      {
-        id:"analyze-ghost",
-        label:'Analyser un flux étrange: `show ghostscan` puis `report` pour valider.',
-        done:false
-      }
+      {id:"read-conf", label:'Lire la config: `cat neon.conf` puis `show firewall`.', done:false},
+      {id:"probe-dmz", label:'Forger une sonde: `forge --type probe --dst dmz.akiranet` puis `send`.', done:false},
+      {id:"analyze-ghost", label:'Afficher `show ghostscan` puis `report` pour conclure.', done:false}
     ];
     state.mission = {
       id,
       title:`Opération ${id} — Cartographie Neon`,
-      desc:`Utilise des commandes proches du réel pour cartographier un réseau imaginaire, sans toucher Internet.`,
+      desc:`Utilise des lignes de code réalistes pour explorer un réseau imaginaire et rédiger un rapport.`,
       steps
     };
     renderMissionUI();
@@ -681,7 +664,7 @@
     const st = state.mission.steps.find(s=>s.id===id);
     if(st && !st.done){
       st.done = true;
-      hudLog("Objectif terminé: "+st.label);
+      hudLog("Objectif atteint: "+st.label);
       logLyra("[LYRA] Objectif validé.");
       renderMissionUI();
       checkMissionComplete();
@@ -691,32 +674,30 @@
   function checkMissionComplete(){
     if(!state.mission) return;
     if(state.mission.steps.every(s=>s.done)){
-      const reward = 180; // XP fictive
+      const reward = 200;
       state.xp += reward;
       state.missionsDone++;
       state.level = 1 + Math.floor(state.xp / 800);
       logSys(`[SYS] Mission ${state.mission.id} complétée. +${reward} XP (fictif).`);
-      logLyra("[LYRA] Beau boulot. Ce que tu apprends ici se transpose en bonnes pratiques réelles, pas en attaques.");
+      logLyra("[LYRA] Tu commences à penser comme un analyste, pas comme un script kiddie.");
       hudLog("Mission "+state.mission.id+" complétée.");
       state.mission = null;
-      setTimeout(createMission, 800); // enchaîner une autre
+      setTimeout(createMission, 800);
       updateHUD();
       saveState();
     }
   }
 
-  // --- PACKET SIMULATION ---
-
+  // Packets
   function forgePacket(args){
-    // Example: forge --type probe --dst dmz.akiranet
-    let type = "probe", dst = "dmz.akiranet";
+    let type="probe", dst="dmz.akiranet";
     for(let i=0;i<args.length;i++){
-      if(args[i] === "--type" && args[i+1]) type = args[i+1];
-      if((args[i] === "--dst" || args[i]==="--target") && args[i+1]) dst = args[i+1];
+      if(args[i]==="--type" && args[i+1]) type=args[i+1];
+      if((args[i]==="--dst"||args[i]==="--target") && args[i+1]) dst=args[i+1];
     }
     const pkt = {
       id:"pkt-"+Math.random().toString(36).slice(2,7),
-      type, dst,
+      type,dst,
       t:Date.now()
     };
     state.packets.push(pkt);
@@ -724,12 +705,11 @@
     hudLog(`Forge ${pkt.id} -> ${dst}`);
     addTimeline("forge "+pkt.id);
     animatePacket(pkt);
-    // progression
     if(type==="probe" && dst==="dmz.akiranet") markStep("probe-dmz");
     return pkt;
   }
 
-  function sendLastPacket(){
+  function sendLast(){
     const pkt = state.packets[state.packets.length-1];
     if(!pkt){
       logWarn("[ERR] Aucun paquet forgé.");
@@ -742,12 +722,11 @@
   }
 
   function evaluatePacket(pkt){
-    // purement pédagogique
     if(pkt.type==="probe" && pkt.dst==="dmz.akiranet"){
-      logSys("[ANALYSE] Sonde correcte sur la DMZ fictive. Rien d'agressif.");
+      logSys("[ANALYSE] Sonde propre sur la DMZ fictive. Lecture uniquement.");
     }
     if(pkt.type==="exfil"){
-      logWarn("[ALERTE] Pattern EXFIL détecté (simulation). Lyra t'explique pourquoi c'est toxique en vrai.");
+      logWarn("[ALERTE] Pattern EXFIL détecté (simulation). En vrai, ce serait critique.");
       state.alerts++;
       state.trace = Math.min(100, state.trace+15);
       uiTrace.textContent = state.trace+"%";
@@ -761,30 +740,24 @@
 
   function animatePacket(pkt){
     if(!neonMap || !pktLayer) return;
-    const svgns = "http://www.w3.org/2000/svg";
-    const c = document.createElementNS(svgns,"circle");
-    c.setAttribute("r","2.4");
+    const ns = "http://www.w3.org/2000/svg";
+    const c = document.createElementNS(ns,"circle");
+    c.setAttribute("r","2.8");
     c.setAttribute("fill", pkt.type==="exfil" ? "#ff3366" : "#5bffbf");
     pktLayer.appendChild(c);
-    // simple animation along a bezier
-    const start = {x:20,y:60};
-    const end = {x:170,y:60};
-    const c1 = {x:80,y: pkt.type==="exfil"?20:10};
-    const c2 = {x:120,y: pkt.type==="exfil"?100:110};
-    let t=0;
-    const speed = 0.02;
+    const start={x:20,y:60}, end={x:180,y:60};
+    const c1={x:80,y:pkt.type==="exfil"?20:15};
+    const c2={x:120,y:pkt.type==="exfil"?100:105};
+    let t=0, speed=0.02;
     function bez(a,b,c,d,t){
       const mt=1-t;
       return mt*mt*mt*a + 3*mt*mt*t*b + 3*mt*t*t*c + t*t*t*d;
     }
     function step(){
       t+=speed;
-      if(t>=1){
-        pktLayer.removeChild(c);
-        return;
-      }
-      const x = bez(start.x,c1.x,c2.x,end.x,t);
-      const y = bez(start.y,c1.y,c2.y,end.y,t);
+      if(t>=1){ pktLayer.removeChild(c); return; }
+      const x=bez(start.x,c1.x,c2.x,end.x,t);
+      const y=bez(start.y,c1.y,c2.y,end.y,t);
       c.setAttribute("cx",x);
       c.setAttribute("cy",y);
       requestAnimationFrame(step);
@@ -796,17 +769,12 @@
     state.trace = 0;
     uiTrace.textContent = "0%";
     hudAlerts.textContent = state.alerts;
-    logSys("[SYS] Les compteurs sont remis à zéro, tu peux reprendre proprement.");
+    logSys("[SYS] Trace remise à zéro. Tu peux continuer proprement.");
   }
 
-  // --- CODE SNIPPETS ---
-
-  function setSnippetActive(code){
-    snippetActive.textContent = code;
-  }
-  function setSnippetLyra(code){
-    snippetLyra.textContent = code;
-  }
+  // Snippets
+  function setSnippetActive(code){ snippetActive.textContent = code; }
+  function setSnippetLyra(code){ snippetLyra.textContent = code; }
 
   function showFirewallSnippet(){
     setSnippetActive(
@@ -815,13 +783,13 @@ firewall = [
   "allow edge -> dmz 80,443",
   "allow scan-hub -> dmz 443",
   "deny any -> core archives",
-  "# journalise toute anomalie EXFIL"
+  "# log toute tentative EXFIL"
 ]`);
     setSnippetLyra(
 `# LYRA:
-# C'est ce genre de lecture qu'on veut.
-# Comprendre la logique des règles
-# au lieu de lancer des commandes au hasard.`);
+# C'est ce qu'on veut que tu comprennes:
+# lire et raisonner sur les règles,
+# pas juste lancer des commandes au hasard.`);
   }
 
   function showGhostScanSnippet(){
@@ -831,42 +799,38 @@ firewall = [
 hosts = ["ghost-arc", "dmz.akiranet", "ally-hub"]
 for h in hosts:
     resp = probe(h)   # fonction simulée
-    log(h, resp)
-`);
+    log(h, resp)`);
     setSnippetLyra(
 `# LYRA:
-# Pattern classique: boucle sur une liste d'hôtes,
-# enregistre les réponses.
-# Dans la vraie vie: tu obtiens des autorisations
-# avant ce genre d'opérations.`);
+# Boucle sur des hôtes, journalisation.
+# En vrai: toujours avec autorisation,
+# et toujours documenté.`);
   }
 
-  // --- COMMANDS ---
-
+  // Commands
   function handleCommand(input){
     const line = (input||"").trim();
     if(!line) return;
     logUser(line);
     addTimeline("cmd "+line);
-
     const parts = line.split(/\s+/);
     const cmd = parts[0];
     const args = parts.slice(1);
 
     switch(cmd){
       case "help":
-        logSys("Commandes disponibles (toutes simulées) :");
+        logSys("Commandes (simulées) :");
         logSys("  help           : cette aide");
-        logSys("  mission        : afficher les objectifs actuels");
+        logSys("  mission        : afficher les objectifs");
         logSys("  cat neon.conf  : lire la config fictive");
-        logSys("  show firewall  : afficher des règles inspirées firewall");
-        logSys("  show ghostscan : afficher un script de scan pédagogique");
+        logSys("  show firewall  : voir les règles simulées");
+        logSys("  show ghostscan : voir un script pédagogique");
         logSys("  forge --type T --dst H  : forger un paquet");
-        logSys("  send           : envoyer le dernier paquet forgé");
-        logSys("  report         : valider tes observations");
-        logSys("  replay         : voir les derniers événements");
+        logSys("  send           : envoyer le dernier paquet");
+        logSys("  report         : valider ton analyse");
+        logSys("  replay         : voir l'historique local");
         logSys("  clear          : nettoyer l'écran");
-        logLyra("[LYRA] Utilise des syntaxes réalistes, mais rappelle-toi: tout est contenu ici.");
+        logLyra("[LYRA] Tu peux écrire de vraies syntaxes, mais retiens que tout est enfermé ici.");
         break;
 
       case "mission":
@@ -875,7 +839,7 @@ for h in hosts:
 
       case "cat":
         if(args[0]==="neon.conf"){
-          logSys("[FILE] neon.conf (fictif) :");
+          logSys("[FILE] neon.conf (fictif)");
           logSys("MODE = TRAINING_NEON");
           logSys("NODES = edge, dmz, core, ghost-arc, kali-link");
           logSys("OUT_OF_SCOPE = everything_real_world");
@@ -888,11 +852,11 @@ for h in hosts:
       case "show":
         if(args[0]==="firewall"){
           showFirewallSnippet();
-          logSys("Affichage des règles firewall fictives.");
+          logSys("Règles firewall fictives affichées.");
           markStep("read-conf");
         } else if(args[0]==="ghostscan"){
           showGhostScanSnippet();
-          logSys("Affichage du script ghostscan fictif.");
+          logSys("Script ghostscan fictif affiché.");
           markStep("analyze-ghost");
         } else {
           logWarn("show: ressource inconnue.");
@@ -904,12 +868,12 @@ for h in hosts:
         break;
 
       case "send":
-        sendLastPacket();
+        sendLast();
         break;
 
       case "report":
-        logSys("[REPORT] Tu rédiges un rapport fictif basé sur tes observations.");
-        logLyra("[LYRA] C'est ça l'étape clé: documenter proprement.");
+        logSys("[REPORT] Rapport fictif rédigé.");
+        logLyra("[LYRA] C'est la compétence clé: expliquer ce que tu vois.");
         markStep("analyze-ghost");
         markStep("probe-dmz");
         checkMissionComplete();
@@ -935,8 +899,7 @@ for h in hosts:
     });
   }
 
-  // --- SAVE / LOAD ---
-
+  // Save / Load
   function saveState(){
     try{
       const data = {
@@ -960,22 +923,20 @@ for h in hosts:
     try{
       const raw = localStorage.getItem(AUTOSAVE_KEY);
       if(!raw){ logWarn("Aucune sauvegarde trouvée."); return; }
-      const data = JSON.parse(raw);
-      Object.assign(state, {
-        level:data.level||1,
-        xp:data.xp||0,
-        missionsDone:data.missionsDone||0,
-        trace:data.trace||0,
-        alerts:data.alerts||0,
-        fragments:data.fragments||0,
-        playSeconds:data.playSeconds||0,
-        mission:data.mission||null
-      });
+      const d = JSON.parse(raw);
+      state.level = d.level||1;
+      state.xp = d.xp||0;
+      state.missionsDone = d.missionsDone||0;
+      state.trace = d.trace||0;
+      state.alerts = d.alerts||0;
+      state.fragments = d.fragments||0;
+      state.playSeconds = d.playSeconds||0;
+      state.mission = d.mission||null;
       if(!state.mission) createMission();
       renderMissionUI();
       updateHUD();
       hudLog("Sauvegarde chargée.");
-      logSys("[SYS] État restauré depuis la sauvegarde locale.");
+      logSys("[SYS] État restauré.");
     }catch(e){
       logWarn("Erreur chargement: "+e.message);
     }
@@ -987,38 +948,37 @@ for h in hosts:
     location.reload();
   }
 
-  // --- TIME TICK ---
+  // Time tick
   setInterval(()=>{
     const now = Date.now();
     const dt = Math.floor((now - state.lastTick)/1000);
-    if(dt > 0){
+    if(dt>0){
       state.lastTick = now;
       state.playSeconds += dt;
       if(state.playSeconds % 30 === 0) saveState();
       updateHUD();
     }
-  }, 1000);
+  },1000);
 
-  // --- INIT ---
+  // Init
   function boot(){
     logSys("[SYS] Neon Cyber Ops prêt. Tape `help` ou `mission`.");
     if(localStorage.getItem(AUTOSAVE_KEY)){
-      logLyra("[LYRA] Sauvegarde détectée. Clique sur Charger ou continue une nouvelle run.");
+      logLyra("[LYRA] Sauvegarde détectée. Utilise le bouton Charger pour reprendre.");
     }
     createMission();
     updateHUD();
   }
 
-  // --- EVENTS ---
   const root = document.getElementById("pf-root");
-  root.addEventListener("click", (e)=>{
-    if(e.target !== cmdEl){
+  root.addEventListener("click", e=>{
+    if(e.target!==cmdEl){
       setTimeout(()=>cmdEl.focus(),20);
     }
   });
 
-  cmdEl.addEventListener("keydown", (e)=>{
-    if(e.key === "Enter"){
+  cmdEl.addEventListener("keydown", e=>{
+    if(e.key==="Enter"){
       const v = cmdEl.value;
       cmdEl.value = "";
       handleCommand(v);
@@ -1030,9 +990,7 @@ for h in hosts:
   btnReset.addEventListener("click", resetAll);
   btnReplay.addEventListener("click", replayTimeline);
 
-  // --- START ---
   boot();
-
 })();
 </script>
 </body>
